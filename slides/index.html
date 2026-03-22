@@ -393,6 +393,64 @@
 </section>
 
 <section>
+  <h2>실습을 위한 세그먼트 설정</h2>
+  <p>필터 조합을 저장해두면 분석 시 원클릭으로 전환할 수 있습니다</p>
+  <div style="text-align:left; margin-top:1em;">
+    <div class="box" style="margin-bottom:0.5em;">
+      <h3>기본 세그먼트 (5개 코호트)</h3>
+      <p class="small">필터 → 사용자 지정 태그 → <code>cohort</code> = <code>cohort_A</code> → "세그먼트로 저장"</p>
+      <div style="margin-top:0.5em;">
+        <span class="tag tag-orange">cohort_A</span>
+        <span class="tag tag-blue">cohort_B</span>
+        <span class="tag tag-green">cohort_C</span>
+        <span class="tag tag-purple">cohort_D</span>
+        <span class="tag tag-red">cohort_E</span>
+      </div>
+      <p class="small" style="margin-top:0.3em;">→ 대시보드/히트맵/리코딩에서 코호트별 원클릭 전환</p>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <h3>행동 기반 세그먼트 (분석용)</h3>
+      <table style="font-size:0.7em; width:100%;">
+        <tr><th>세그먼트명</th><th>필터 조합</th><th>분석 목적</th></tr>
+        <tr><td>구매 완료자</td><td>방문 URL 포함 <code>/order-complete</code></td><td>성공 여정 패턴</td></tr>
+        <tr><td>장바구니 이탈</td><td>방문 URL 포함 <code>/cart</code> + 미방문 <code>/checkout</code></td><td>이탈 원인 파악</td></tr>
+        <tr><td>리뷰 탐색자</td><td>스마트 이벤트 <code>review_read</code></td><td>정보 탐색형 행동</td></tr>
+        <tr><td>검색 유입</td><td>스마트 이벤트 <code>search_performed</code></td><td>검색 vs 브라우징 비교</td></tr>
+        <tr><td>모바일 사용자</td><td>디바이스 = 모바일</td><td>디바이스별 행동 차이</td></tr>
+        <tr><td>UX 마찰 경험</td><td>Rage Clicks = 예</td><td>UX 개선 포인트</td></tr>
+      </table>
+    </div>
+    <div class="box">
+      <h3>비교 분석 조합</h3>
+      <p class="small">
+        <span class="accent">코호트 × 행동</span>: cohort_B + review_read → 연구자의 리뷰 패턴<br/>
+        <span class="accent">코호트 × 디바이스</span>: cohort_C + 모바일 → 트렌드 팔로워의 모바일 행동<br/>
+        <span class="accent">코호트 × 퍼널</span>: cohort_E + 장바구니 방문 → 윈도우 쇼퍼의 이탈 지점
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>세그먼트 저장 방법</h2>
+  <div style="text-align:left;">
+    <div class="box" style="margin-bottom:0.5em;">
+      <p><span class="number-circle">1</span> 상단 <strong>"필터"</strong> 클릭</p>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <p><span class="number-circle">2</span> 원하는 조건 조합 설정 (사용자 지정 태그, 디바이스, 이벤트 등)</p>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <p><span class="number-circle">3</span> <strong>"세그먼트로 저장"</strong> 클릭 → 이름 입력</p>
+    </div>
+    <div class="box">
+      <p><span class="number-circle">4</span> 이후 상단 <strong>"세그먼트"</strong> 드롭다운에서 원클릭 적용</p>
+    </div>
+  </div>
+  <p class="fragment small" style="margin-top:1em;">저장된 세그먼트는 대시보드 · 히트맵 · 리코딩 · 퍼널 <strong>전체에 동시 적용</strong>됩니다</p>
+</section>
+
+<section>
   <h2>실무 팁: 태그 관리</h2>
   <div class="grid-2">
     <div class="box" style="border-top:4px solid #ee7711;">
