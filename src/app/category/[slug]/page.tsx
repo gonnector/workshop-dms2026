@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import { getCategoryBySlug, getProductsByCategory, Product, CategorySlug } from '@/data/products';
-import { setPageType, setCategoryInterest, ClarityEvents } from '@/lib/clarity';
+import { setPageType, setCategoryInterest, claritySet, ClarityEvents } from '@/lib/clarity';
 
 type SortOption = 'popular' | 'price-low' | 'price-high' | 'newest' | 'rating';
 type PriceRange = 'all' | 'under-20k' | '20k-50k' | '50k-100k' | 'over-100k';
@@ -25,13 +25,20 @@ export default function CategoryPage() {
     if (slug) setCategoryInterest(slug as CategorySlug);
   }, [slug]);
 
+  const sortLabels: Record<SortOption, string> = {
+    'popular': '인기순', 'price-low': '낮은 가격순', 'price-high': '높은 가격순',
+    'rating': '평점순', 'newest': '최신순',
+  };
+
   const handleSortChange = (newSort: SortOption) => {
     setSort(newSort);
+    claritySet('sort_by', sortLabels[newSort]);
     ClarityEvents.filterUsed();
   };
 
   const handlePriceFilter = (range: PriceRange) => {
     setPriceRange(range);
+    claritySet('price_filter', range);
     ClarityEvents.filterUsed();
   };
 
