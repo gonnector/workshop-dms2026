@@ -291,6 +291,28 @@
 </section>
 
 <section>
+  <h2>실무 팁: Clarity 제한사항 & 해결법</h2>
+  <div style="text-align:left;">
+    <div class="box" style="margin-bottom:0.5em;">
+      <h3>드롭다운(&lt;select&gt;) 텍스트 미캡처</h3>
+      <p class="small">Clarity 레코딩에서 드롭다운 선택 텍스트가 "……"으로 표시됨</p>
+      <p class="small" style="color:#ee7711; margin-top:0.3em;">→ <strong>해결</strong>: Custom Tag로 선택 값을 직접 기록 <code>clarity("set", "sort_by", "낮은 가격순")</code></p>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <h3>팝업/오버레이 미캡처</h3>
+      <p class="small"><code>position: fixed</code> 모달이 레코딩에서 안 보일 수 있음</p>
+      <p class="small" style="color:#ee7711; margin-top:0.3em;">→ <strong>해결</strong>: 팝업 인터랙션을 Custom Event로 기록</p>
+    </div>
+    <div class="box">
+      <h3>SPA 네비게이션 태깅 타이밍</h3>
+      <p class="small">React 등 SPA에서 페이지 전환 시 태그가 누락될 수 있음</p>
+      <p class="small" style="color:#ee7711; margin-top:0.3em;">→ <strong>해결</strong>: <code>history.pushState</code> 인터셉트로 태그 재설정</p>
+    </div>
+  </div>
+  <p class="small" style="margin-top:0.8em;">도구의 제한을 아는 것이 도구를 제대로 활용하는 첫걸음입니다</p>
+</section>
+
+<section>
   <h2>Clarity Copilot</h2>
   <p>내장 AI — <span class="accent">무료, 일일 제한 없음</span></p>
   <div class="grid-2" style="margin-top:1em;">
