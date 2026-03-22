@@ -38,6 +38,20 @@ npm install
 npm run dev
 ```
 
+## 트래픽 시뮬레이션
+
+Playwright를 활용하여 5가지 고객 페르소나의 현실적 행동 데이터를 생성합니다:
+
+```bash
+cd scripts
+npm install
+npx playwright install chromium
+npm run simulate          # 100 세션, 헤드리스
+npm run simulate:debug    # 5 세션, 브라우저 표시 (테스트용)
+```
+
+자세한 설정 및 페르소나 설명은 [scripts/README.md](scripts/README.md)를 참조하세요.
+
 ## 워크숍 자료
 
 - [설계 문서](DESIGN.md)

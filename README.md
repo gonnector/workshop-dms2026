@@ -38,6 +38,20 @@ npm install
 npm run dev
 ```
 
+## Traffic Simulation
+
+Generate realistic behavioral data by simulating 5 customer personas with Playwright:
+
+```bash
+cd scripts
+npm install
+npx playwright install chromium
+npm run simulate          # 100 sessions, headless
+npm run simulate:debug    # 5 sessions, headed (for testing)
+```
+
+See [scripts/README.md](scripts/README.md) for detailed configuration and persona descriptions.
+
 ## Workshop Materials
 
 - [Design Document](DESIGN.md)
