@@ -35,14 +35,15 @@ const BASE_URL = process.env.BASE_URL || 'https://workshop.gonnector.com/ecommer
 const TOTAL_SESSIONS = parseInt(process.env.TOTAL_SESSIONS || '100', 10);
 const HEADLESS = (process.env.HEADLESS ?? 'true') !== 'false';
 const CONCURRENCY = parseInt(process.env.CONCURRENCY || '3', 10);
+const FORCE_COHORT = process.env.COHORT || ''; // e.g. 'cohort_A' to run only that cohort
 
 /** Cohort distribution — percentages must sum to 1.0 */
 const COHORT_DISTRIBUTION: { cohort: CohortId; pct: number; runner: PersonaRunner; label: string }[] = [
-  { cohort: 'cohort_A', pct: 0.25, runner: runCohortA, label: 'Deal Hunter' },
-  { cohort: 'cohort_B', pct: 0.20, runner: runCohortB, label: 'Researcher' },
-  { cohort: 'cohort_C', pct: 0.20, runner: runCohortC, label: 'Trend Follower' },
-  { cohort: 'cohort_D', pct: 0.15, runner: runCohortD, label: 'Loyal Buyer' },
-  { cohort: 'cohort_E', pct: 0.20, runner: runCohortE, label: 'Window Shopper' },
+  { cohort: 'cohort_A', pct: 0.25, runner: runCohortA, label: '가성비 헌터 (Deal Hunter)' },
+  { cohort: 'cohort_B', pct: 0.20, runner: runCohortB, label: '신중한 연구자 (Researcher)' },
+  { cohort: 'cohort_C', pct: 0.20, runner: runCohortC, label: '트렌드 팔로워 (Trend Follower)' },
+  { cohort: 'cohort_D', pct: 0.15, runner: runCohortD, label: '충성 고객 (Loyal Buyer)' },
+  { cohort: 'cohort_E', pct: 0.20, runner: runCohortE, label: '윈도우 쇼퍼 (Window Shopper)' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -84,6 +85,8 @@ function buildSessionPlan(total: number): SessionPlan[] {
 async function runSession(browser: Browser, plan: SessionPlan): Promise<{ ok: boolean; error?: string }> {
   const forceMobile = plan.cohort === 'cohort_C' && Math.random() < 0.5;
   const viewport = randomViewport(forceMobile);
+  const device = viewport.isMobile ? '📱 모바일' : '🖥️  데스크톱';
+  console.log(`    디바이스: ${device} (${viewport.width}x${viewport.height})`);
 
   let context: BrowserContext | null = null;
 
@@ -164,8 +167,23 @@ async function main() {
   console.log(`  Concurrency:    ${CONCURRENCY}`);
   console.log('');
 
-  // Print session distribution
-  const plan = buildSessionPlan(TOTAL_SESSIONS);
+  if (FORCE_COHORT) {
+    console.log(`  강제 코호트:    ${FORCE_COHORT}`);
+  }
+  console.log('');
+
+  // Build plan — filter to forced cohort if specified
+  let plan = buildSessionPlan(TOTAL_SESSIONS);
+  if (FORCE_COHORT) {
+    const forced = COHORT_DISTRIBUTION.find(c => c.cohort === FORCE_COHORT);
+    if (forced) {
+      plan = Array.from({ length: TOTAL_SESSIONS }, () => ({
+        cohort: forced.cohort,
+        runner: forced.runner,
+        label: forced.label,
+      }));
+    }
+  }
   const counts: Record<string, number> = {};
   for (const s of plan) {
     counts[s.cohort] = (counts[s.cohort] || 0) + 1;
@@ -194,13 +212,15 @@ async function main() {
     const sessionNum = ++completed;
     const tag = `[${sessionNum}/${TOTAL_SESSIONS}]`;
 
-    console.log(`${tag} Starting ${session.cohort} (${session.label})...`);
+    console.log(`\n${tag} ========================================`);
+    console.log(`${tag} 페르소나: ${session.label} (${session.cohort})`);
+    console.log(`${tag} ========================================`);
 
     const result = await runSession(browser, session);
 
     if (result.ok) {
       succeeded++;
-      console.log(`${tag} OK — ${session.cohort}`);
+      console.log(`${tag} ✓ 완료 — ${session.label}`);
     } else {
       failed++;
       console.log(`${tag} FAIL — ${session.cohort}: ${result.error}`);

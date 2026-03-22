@@ -15,7 +15,7 @@ import {
   navigateTo, initClarityTags, dismissPopup,
   shortDelay, mediumDelay, longDelay,
   gradualScroll, scrollToElement, naturalClick,
-  CategorySlug,
+  logAction, CategorySlug,
 } from '../shared';
 
 const PREFERRED_CATEGORIES: CategorySlug[] = ['fashion', 'living'];
@@ -23,7 +23,7 @@ const PREFERRED_CATEGORIES: CategorySlug[] = ['fashion', 'living'];
 const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
   const { baseUrl, cohort } = config;
 
-  // --- Entry: via home page, enjoys browsing ---
+  logAction('홈페이지 진입 → 느긋하게 전체 스크롤');
   await navigateTo(page, baseUrl, '/');
   await initClarityTags(page, cohort);
   await dismissPopup(page);
@@ -35,13 +35,13 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
 
   // Sometimes scroll back up to look at something again
   if (Math.random() < 0.4) {
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    await page.evaluate(`window.scrollTo({ top: 0, behavior: 'smooth' })`);
     await mediumDelay();
     await gradualScroll(page, 0.5);
   }
 
-  // --- Browse multiple categories ---
   const cat1 = pickRandom(PREFERRED_CATEGORIES);
+  logAction(`카테고리(${cat1}) 이동 → 전체 탐색`);
   await navigateTo(page, baseUrl, `/category/${cat1}`);
   await shortDelay();
 
@@ -61,8 +61,10 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
 
   const cartItems: string[] = []; // track what we add to cart
 
+  logAction(`상품 ${browseList.length}개 구경: ${browseList.join(', ')}`);
   for (let i = 0; i < browseList.length; i++) {
     const productId = browseList[i];
+    logAction(`상품 ${productId} 구경 (${i+1}/${browseList.length})`);
     await navigateTo(page, baseUrl, `/product/${productId}`);
     await shortDelay();
 
@@ -70,8 +72,9 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await gradualScroll(page, 0.8);
     await mediumDelay();
 
-    // Add to wishlist (window shoppers love wishlisting)
+    // Add to wishlist
     if (Math.random() < 0.75) {
+      logAction(`찜하기 ♥ ${productId}`);
       const wishlistBtn = page.locator('button svg path[d*="4.318 6.318"]').locator('..');
       if (await wishlistBtn.count() > 0) {
         try {
@@ -81,8 +84,8 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
       }
     }
 
-    // Sometimes add to cart (they'll remove it later)
     if (Math.random() < 0.45) {
+      logAction(`장바구니 담기 ${productId} (나중에 삭제할 거임)`);
       // Select options if available
       const colorBtns = page.locator('label:has-text("색상") ~ div button');
       if (await colorBtns.count() > 1) {
@@ -109,8 +112,8 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await shortDelay();
   }
 
-  // --- Browse a second category ---
   const cat2 = PREFERRED_CATEGORIES.find(c => c !== cat1) || pickRandom(CATEGORIES.filter(c => c !== cat1));
+  logAction(`두 번째 카테고리(${cat2}) 이동 → 추가 탐색`);
   await navigateTo(page, baseUrl, `/category/${cat2}`);
   await shortDelay();
   await gradualScroll(page, 0.7);
@@ -144,8 +147,8 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
     }
   }
 
-  // --- Cart abandonment behavior (the key signal) ---
   if (cartItems.length > 0) {
+    logAction(`장바구니 확인 (${cartItems.length}개) → 고민하다 삭제 (장바구니 이탈)`);
     await navigateTo(page, baseUrl, '/cart');
     await mediumDelay();
     await gradualScroll(page, 0.8);

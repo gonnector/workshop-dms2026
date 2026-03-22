@@ -16,7 +16,7 @@ import {
   navigateTo, initClarityTags, dismissPopupQuick,
   humanDelay, shortDelay, mediumDelay,
   gradualScroll, naturalClick, humanType,
-  CategorySlug,
+  logAction, CategorySlug,
 } from '../shared';
 
 const PREFERRED_CATEGORIES: CategorySlug[] = ['food', 'living'];
@@ -28,7 +28,7 @@ const runCohortA: PersonaRunner = async (page: Page, config: SessionConfig) => {
   const entryChoice = Math.random();
 
   if (entryChoice < 0.5) {
-    // Enter via events page (direct deal hunter)
+    logAction('이벤트/SALE 페이지로 직행');
     await navigateTo(page, baseUrl, '/events');
     await initClarityTags(page, cohort);
     await dismissPopupQuick(page);
@@ -38,13 +38,13 @@ const runCohortA: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await gradualScroll(page, 0.6);
     await shortDelay();
 
-    // Click a sale product from the events page
     const saleId = pickRandom(SALE_PRODUCT_IDS);
+    logAction(`할인 상품 클릭: ${saleId}`);
     await navigateTo(page, baseUrl, `/product/${saleId}`);
     await shortDelay();
 
   } else if (entryChoice < 0.8) {
-    // Enter via home, quickly navigate to events
+    logAction('홈 → 이벤트 페이지로 이동');
     await navigateTo(page, baseUrl, '/');
     await initClarityTags(page, cohort);
     await dismissPopupQuick(page);
@@ -66,8 +66,8 @@ const runCohortA: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await shortDelay();
 
   } else {
-    // Enter via category page with price filter
     const cat = pickRandom(PREFERRED_CATEGORIES);
+    logAction(`카테고리(${cat}) → 가격 필터 적용`);
     await navigateTo(page, baseUrl, `/category/${cat}`);
     await initClarityTags(page, cohort);
     await dismissPopupQuick(page);
@@ -93,8 +93,8 @@ const runCohortA: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await shortDelay();
   }
 
-  // --- Product page: quick scan, add to cart ---
-  await gradualScroll(page, 0.3); // minimal scrolling
+  logAction('상품 페이지 — 빠르게 훑고 장바구니 담기');
+  await gradualScroll(page, 0.3);
   await shortDelay();
 
   // Add to cart
@@ -111,7 +111,7 @@ const runCohortA: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await shortDelay();
   }
 
-  // --- Cart: apply coupon and checkout ---
+  logAction('장바구니 → 쿠폰(WELCOME10) 적용 → 결제');
   await navigateTo(page, baseUrl, '/cart');
   await shortDelay();
 

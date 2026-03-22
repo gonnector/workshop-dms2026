@@ -93,17 +93,22 @@ export async function humanDelay(minMs = 500, maxMs = 2500): Promise<void> {
 
 /** Short pause (e.g. between clicks in quick succession) */
 export async function shortDelay(): Promise<void> {
-  await humanDelay(300, 800);
+  await humanDelay(1500, 3000);
 }
 
 /** Medium pause (reading a section, considering a product) */
 export async function mediumDelay(): Promise<void> {
-  await humanDelay(1000, 2500);
+  await humanDelay(3000, 6000);
 }
 
 /** Long pause (reading reviews carefully, comparing products) */
 export async function longDelay(): Promise<void> {
-  await humanDelay(2000, 4000);
+  await humanDelay(6000, 12000);
+}
+
+/** Log a bot action to console */
+export function logAction(action: string): void {
+  console.log(`    → ${action}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -119,15 +124,15 @@ export async function navigateTo(page: Page, baseUrl: string, path: string): Pro
 
 /** Scroll the page gradually to simulate human reading */
 export async function gradualScroll(page: Page, scrollFraction = 1.0): Promise<void> {
-  const totalHeight = await page.evaluate(() => document.body.scrollHeight);
-  const viewportHeight = await page.evaluate(() => window.innerHeight);
+  const totalHeight = await page.evaluate('document.body.scrollHeight');
+  const viewportHeight = await page.evaluate('window.innerHeight');
   const targetScroll = totalHeight * scrollFraction;
 
   let currentScroll = 0;
   while (currentScroll < targetScroll) {
     const step = randInt(150, 400);
     currentScroll = Math.min(currentScroll + step, targetScroll);
-    await page.evaluate((y) => window.scrollTo({ top: y, behavior: 'smooth' }), currentScroll);
+    await page.evaluate(`window.scrollTo({ top: ${currentScroll}, behavior: 'smooth' })`);
     await page.waitForTimeout(randInt(100, 300));
   }
 }
@@ -172,30 +177,25 @@ export async function humanType(page: Page, selector: string, text: string): Pro
  * Sets data_source=simulation and cohort tag via page.evaluate.
  */
 export async function initClarityTags(page: Page, cohort: CohortId): Promise<void> {
-  await page.evaluate(({ cohort }) => {
-    // Set simulation flag in sessionStorage (the site reads this in ClarityInit)
-    sessionStorage.setItem('komma_data_source', 'simulation');
-
-    // Set cohort tag via Clarity API (if loaded)
-    const trySetClarity = () => {
-      if (typeof (window as any).clarity === 'function') {
-        (window as any).clarity('set', 'data_source', 'simulation');
-        (window as any).clarity('set', 'cohort', cohort);
-        return true;
-      }
-      return false;
-    };
-
-    if (!trySetClarity()) {
-      // Clarity might not be loaded yet — retry a few times
-      let attempts = 0;
-      const interval = setInterval(() => {
-        if (trySetClarity() || ++attempts > 20) {
-          clearInterval(interval);
+  await page.evaluate(`
+    (function() {
+      sessionStorage.setItem('komma_data_source', 'simulation');
+      var trySet = function() {
+        if (typeof window.clarity === 'function') {
+          window.clarity('set', 'data_source', 'simulation');
+          window.clarity('set', 'cohort', '${cohort}');
+          return true;
         }
-      }, 250);
-    }
-  }, { cohort });
+        return false;
+      };
+      if (!trySet()) {
+        var attempts = 0;
+        var iv = setInterval(function() {
+          if (trySet() || ++attempts > 20) clearInterval(iv);
+        }, 250);
+      }
+    })()
+  `);
 }
 
 /**

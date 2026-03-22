@@ -16,7 +16,7 @@ import {
   navigateTo, initClarityTags, dismissPopupQuick,
   humanDelay, shortDelay,
   gradualScroll, naturalClick,
-  CategorySlug,
+  logAction, CategorySlug,
 } from '../shared';
 
 const runCohortD: PersonaRunner = async (page: Page, config: SessionConfig) => {
@@ -34,19 +34,19 @@ const runCohortD: PersonaRunner = async (page: Page, config: SessionConfig) => {
   const targetProduct = bestInCat.length > 0 ? pickRandom(bestInCat) : pickRandom(catProducts);
 
   if (entryChoice < 0.6) {
-    // Direct to product page (bookmark / recent purchase behavior)
+    logAction(`상품 ${targetProduct}(${category}) 직행 — 북마크/재구매 패턴`);
     await navigateTo(page, baseUrl, `/product/${targetProduct}`);
     await initClarityTags(page, cohort);
     await dismissPopupQuick(page);
   } else if (entryChoice < 0.85) {
-    // Via home, but quickly navigate to product
+    logAction(`홈 → 상품 ${targetProduct}(${category}) 빠르게 이동`);
     await navigateTo(page, baseUrl, '/');
     await initClarityTags(page, cohort);
     await dismissPopupQuick(page);
     await shortDelay();
     await navigateTo(page, baseUrl, `/product/${targetProduct}`);
   } else {
-    // Via category page, but don't filter — they know what to find
+    logAction(`카테고리(${category}) → 상품 ${targetProduct} — 필터 안 씀`);
     await navigateTo(page, baseUrl, `/category/${category}`);
     await initClarityTags(page, cohort);
     await dismissPopupQuick(page);
@@ -59,8 +59,7 @@ const runCohortD: PersonaRunner = async (page: Page, config: SessionConfig) => {
 
   await shortDelay();
 
-  // --- Product page: minimal browsing, straight to add-to-cart ---
-  // Loyal buyers don't read reviews or compare — they know the product
+  logAction('옵션 선택 → 바로 장바구니 (리뷰 안 봄, 비교 안 함)');
 
   // Select options quickly if available
   const colorBtns = page.locator('label:has-text("색상") ~ div button');
@@ -106,7 +105,7 @@ const runCohortD: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await shortDelay();
   }
 
-  // --- Cart → Checkout (very high conversion: ~90%) ---
+  logAction('장바구니 → 바로 결제 (쿠폰 안 씀, 망설임 없음)');
   if (Math.random() < 0.90) {
     // Sometimes use "바로 구매" instead of going through cart
     if (Math.random() < 0.4) {

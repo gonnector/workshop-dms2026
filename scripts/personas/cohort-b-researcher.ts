@@ -16,7 +16,7 @@ import {
   navigateTo, initClarityTags, dismissPopup,
   humanDelay, shortDelay, mediumDelay, longDelay,
   gradualScroll, scrollToElement, naturalClick,
-  CategorySlug,
+  logAction, CategorySlug,
 } from '../shared';
 
 const PREFERRED_CATEGORIES: CategorySlug[] = ['tech', 'beauty'];
@@ -24,7 +24,7 @@ const PREFERRED_CATEGORIES: CategorySlug[] = ['tech', 'beauty'];
 const runCohortB: PersonaRunner = async (page: Page, config: SessionConfig) => {
   const { baseUrl, cohort } = config;
 
-  // --- Entry: usually via home, then browse into a category ---
+  logAction('홈페이지 진입 → 카테고리 탐색 시작');
   await navigateTo(page, baseUrl, '/');
   await initClarityTags(page, cohort);
   await dismissPopup(page);
@@ -34,8 +34,8 @@ const runCohortB: PersonaRunner = async (page: Page, config: SessionConfig) => {
   await gradualScroll(page, 0.7);
   await mediumDelay();
 
-  // Go to a preferred category
   const mainCategory = pickRandom(PREFERRED_CATEGORIES);
+  logAction(`카테고리(${mainCategory}) 진입 → 평점순 정렬`);
   await navigateTo(page, baseUrl, `/category/${mainCategory}`);
   await mediumDelay();
 
@@ -55,12 +55,13 @@ const runCohortB: PersonaRunner = async (page: Page, config: SessionConfig) => {
   await gradualScroll(page, 0.8);
   await mediumDelay();
 
-  // --- Deep-dive into multiple products (the researcher pattern) ---
   const categoryProducts = PRODUCT_IDS[mainCategory];
   const productsToCompare = pickRandomN(categoryProducts, randInt(3, 5));
+  logAction(`상품 ${productsToCompare.length}개 비교 탐색 시작: ${productsToCompare.join(', ')}`);
 
   for (let i = 0; i < productsToCompare.length; i++) {
     const productId = productsToCompare[i];
+    logAction(`상품 ${productId} 상세 진입 (${i+1}/${productsToCompare.length})`);
     await navigateTo(page, baseUrl, `/product/${productId}`);
     await shortDelay();
 
@@ -68,7 +69,7 @@ const runCohortB: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await gradualScroll(page, 0.4);
     await mediumDelay();
 
-    // 2) Click reviews tab — this is the key researcher behavior
+    logAction('리뷰 탭 클릭 → 리뷰 정독 중...');
     const reviewTabClicked = await naturalClick(page, 'button:has-text("리뷰")');
     if (reviewTabClicked) {
       await mediumDelay();
@@ -108,8 +109,9 @@ const runCohortB: PersonaRunner = async (page: Page, config: SessionConfig) => {
       await shortDelay();
     }
 
-    // 5) Add to wishlist (researchers save for later comparison)
+    // 5) Add to wishlist
     if (Math.random() < 0.7) {
+      logAction('찜하기 (비교용 저장)');
       // Click the heart icon (wishlist button on product page)
       const wishlistBtn = page.locator('button svg path[d*="4.318 6.318"]').locator('..');
       if (await wishlistBtn.count() > 0) {

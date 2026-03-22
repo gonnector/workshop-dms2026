@@ -136,7 +136,7 @@ export const products: Product[] = [
   // t2: Middle range
   { id: 't2', name: '접이식 무선 키보드', brand: '타입랩', category: 'tech', price: 65000, originalPrice: 85000, rating: 4.2, reviewCount: 56, image: img('1587829741301-dc798b83add3'), images: [img('1587829741301-dc798b83add3',600)], description: '블루투스 5.0 접이식 키보드. 멀티페어링 3대.', tags: ['sale'], stock: 60 },
   // t3: High rating + Few reviews (hidden gem)
-  { id: 't3', name: '4K 웹캠 오토포커스', brand: '비전프로', category: 'tech', price: 78000, rating: 4.7, reviewCount: 19, image: img('1587826080692-f439cd0b70da'), images: [img('1587826080692-f439cd0b70da',600)], description: '4K UHD 오토포커스 웹캠. 내장 마이크. 화상회의 필수.', tags: ['new'], stock: 45 },
+  { id: 't3', name: '4K 웹캠 오토포커스', brand: '비전프로', category: 'tech', price: 78000, rating: 4.7, reviewCount: 19, image: img('1611532736597-de2d4265fba3'), images: [img('1611532736597-de2d4265fba3',600)], description: '4K UHD 오토포커스 웹캠. 내장 마이크. 화상회의 필수.', tags: ['new'], stock: 45 },
   // t4: Low rating + Few reviews (uncertain)
   { id: 't4', name: 'USB-C 7in1 허브', brand: '커넥트잇', category: 'tech', price: 42000, rating: 3.8, reviewCount: 25, image: img('1633174524827-db00a6b7bc74'), images: [img('1633174524827-db00a6b7bc74',600)], description: 'HDMI 4K + USB3.0x2 + SD/TF + PD 100W + RJ45.', tags: ['best'], stock: 200 },
   // t5: Low rating + Few reviews (uncertain)

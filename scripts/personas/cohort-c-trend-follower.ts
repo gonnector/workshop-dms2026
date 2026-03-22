@@ -14,7 +14,7 @@ import {
   navigateTo, initClarityTags, dismissPopup,
   shortDelay, mediumDelay,
   gradualScroll, naturalClick,
-  CategorySlug,
+  logAction, CategorySlug,
 } from '../shared';
 
 const PREFERRED_CATEGORIES: CategorySlug[] = ['fashion', 'beauty'];
@@ -22,7 +22,7 @@ const PREFERRED_CATEGORIES: CategorySlug[] = ['fashion', 'beauty'];
 const runCohortC: PersonaRunner = async (page: Page, config: SessionConfig) => {
   const { baseUrl, cohort } = config;
 
-  // --- Entry: via home page (attracted by banners) ---
+  logAction('홈페이지 진입 → 배너 탐색');
   await navigateTo(page, baseUrl, '/');
   await initClarityTags(page, cohort);
   await dismissPopup(page);
@@ -72,7 +72,7 @@ const runCohortC: PersonaRunner = async (page: Page, config: SessionConfig) => {
   }
   await shortDelay();
 
-  // Apply "NEW" filter (trend followers love new items)
+  logAction(`카테고리(${cat}) → NEW 필터 + 최신순 정렬`);
   await naturalClick(page, 'button:has-text("NEW")');
   await shortDelay();
 
@@ -91,7 +91,9 @@ const runCohortC: PersonaRunner = async (page: Page, config: SessionConfig) => {
   const newInCat = catProducts.filter(id => NEW_PRODUCT_IDS.includes(id) || BEST_PRODUCT_IDS.includes(id));
   const browselist = newInCat.length >= 2 ? pickRandomN(newInCat, randInt(2, 3)) : pickRandomN(catProducts, randInt(2, 3));
 
+  logAction(`신상품 ${browselist.length}개 탐색: ${browselist.join(', ')}`);
   for (const productId of browselist) {
+    logAction(`상품 ${productId} 조회 → 비주얼 스캔`);
     await navigateTo(page, baseUrl, `/product/${productId}`);
     await shortDelay();
 
