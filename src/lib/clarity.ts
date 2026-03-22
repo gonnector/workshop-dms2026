@@ -48,7 +48,16 @@ export function initDataSource() {
 
   // Read from sessionStorage (persists across page navigations)
   const source = sessionStorage.getItem(DATA_SOURCE_KEY) || 'organic';
-  claritySet('data_source', source);
+
+  // Retry until Clarity is loaded (script loads afterInteractive)
+  const setTag = () => {
+    if (window.clarity) {
+      window.clarity('set', 'data_source', source);
+    } else {
+      setTimeout(setTag, 200);
+    }
+  };
+  setTag();
 }
 
 // --- Page Type Tags ---
