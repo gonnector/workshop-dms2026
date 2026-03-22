@@ -52,7 +52,11 @@ workshop.gonnector.com/
 ## 의사결정 이력
 - 2026-03-22: 세그먼트 태그 → 코드명(`cohort_A~E`) 방식으로 변경 (검증용, 정답 비공개)
 - 2026-03-22: Clarity 데이터 export 한계 확인 → 사전 export CSV를 GitHub에 제공하는 전략 채택
-- 2026-03-22: Clarity MCP Server 발견 → 데모용으로 활용 계획 (일 10회 제한 있으므로 전원 사용은 비현실적)
+- 2026-03-22: Clarity MCP Server 발견 → 강사 데모용으로만 (일 10회 제한, 유료 플랜 없음)
+- 2026-03-22: Clarity Bot Detection → OFF 토글 가능 (Settings > Setup > Advanced Settings). 봇 시뮬레이션 시 OFF 필수
+- 2026-03-22: Clarity Copilot → 100% 무료, 일일 제한 없음 (스레드당 10개 질문, 새 스레드 무제한). 참가자 전원 사용 가능
+- 2026-03-22: Clarity Grouped Session Insights → 최대 250세션 일괄 AI 요약, 일일 제한 없음
+- 2026-03-22: 피드백 반영 — 아이디어 1+2 합체 (Round 1: Clarity 네이티브 progressive, Round 2: Claude Code), 개인 실습, FigJam은 경량 체크인용
 
 ## 프로젝트 구조
 ```
