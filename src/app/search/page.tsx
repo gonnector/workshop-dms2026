@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import { products } from '@/data/products';
-import { setPageType, ClarityEvents } from '@/lib/clarity';
+import { setPageType, claritySet, ClarityEvents } from '@/lib/clarity';
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -13,8 +13,18 @@ function SearchResults() {
 
   useEffect(() => {
     setPageType('search');
-    if (query) ClarityEvents.searchPerformed();
+    if (query) {
+      ClarityEvents.searchPerformed();
+      claritySet('search_keyword', query);
+    }
   }, [query]);
+
+  // Tag search result count after results are computed
+  useEffect(() => {
+    if (query) {
+      claritySet('search_result_count', results.length === 0 ? 'no_result' : results.length <= 3 ? 'few' : 'many');
+    }
+  }, [query, results.length]);
 
   const results = useMemo(() => {
     if (!query) return [];
