@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ClarityInit from '@/components/ClarityInit';
 import { CLARITY_PROJECT_ID } from '@/lib/clarity';
 import Script from 'next/script';
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         </div>
         <main className="flex-1">{children}</main>
         <Footer />
+        <ClarityInit />
         {/* Microsoft Clarity */}
         {CLARITY_PROJECT_ID && (
           <Script id="clarity-script" strategy="afterInteractive">

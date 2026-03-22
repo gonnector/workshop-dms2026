@@ -33,6 +33,24 @@ export function clarityIdentify(userId: string, sessionId?: string) {
   }
 }
 
+// --- Data Source (test/simulation/organic separation) ---
+const DATA_SOURCE_KEY = 'komma_data_source';
+
+export function initDataSource() {
+  if (typeof window === 'undefined') return;
+
+  // Check URL param first (e.g. ?mode=test)
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get('mode');
+  if (mode === 'test' || mode === 'simulation') {
+    sessionStorage.setItem(DATA_SOURCE_KEY, mode);
+  }
+
+  // Read from sessionStorage (persists across page navigations)
+  const source = sessionStorage.getItem(DATA_SOURCE_KEY) || 'organic';
+  claritySet('data_source', source);
+}
+
 // --- Page Type Tags ---
 export type PageType = 'home' | 'category' | 'product' | 'cart' | 'checkout' | 'order-complete' | 'mypage' | 'event' | 'search';
 
