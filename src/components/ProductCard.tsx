@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link href={`/ecommerce/product/${product.id}`} className="group block">
+    <Link href={`/product/${product.id}`} className="group block">
       <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden mb-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

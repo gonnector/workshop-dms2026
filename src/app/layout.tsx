@@ -17,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <head>
+      <body className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
         {/* Microsoft Clarity */}
         {CLARITY_PROJECT_ID && (
           <Script id="clarity-script" strategy="afterInteractive">
@@ -30,11 +33,6 @@ export default function RootLayout({
             `}
           </Script>
         )}
-      </head>
-      <body className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
       </body>
     </html>
   );

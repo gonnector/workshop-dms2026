@@ -32,7 +32,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <span>무료배송 5만원 이상 | 첫 구매 10% 할인</span>
           <div className="flex gap-4">
-            <Link href="/ecommerce/mypage" className="hover:text-primary-400 transition-colors">마이페이지</Link>
+            <Link href="/mypage" className="hover:text-primary-400 transition-colors">마이페이지</Link>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/ecommerce" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <span className="text-2xl font-bold tracking-tight">KOMMA</span>
             <span className="text-xs text-komma-gray hidden sm:block">Korean Lifestyle</span>
           </Link>
@@ -67,10 +67,10 @@ export default function Header() {
             <button onClick={() => setSearchOpen(!searchOpen)} className="md:hidden p-2 hover:bg-gray-50 rounded-full transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </button>
-            <Link href="/ecommerce/mypage" className="p-2 hover:bg-gray-50 rounded-full transition-colors hidden sm:block">
+            <Link href="/mypage" className="p-2 hover:bg-gray-50 rounded-full transition-colors hidden sm:block">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
             </Link>
-            <Link href="/ecommerce/cart" className="p-2 hover:bg-gray-50 rounded-full transition-colors relative">
+            <Link href="/cart" className="p-2 hover:bg-gray-50 rounded-full transition-colors relative">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
               {cartCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-primary-500 text-white text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center rounded-full min-w-[18px] h-[18px]">
@@ -106,7 +106,7 @@ export default function Header() {
             {categories.map(cat => (
               <li key={cat.slug}>
                 <Link
-                  href={`/ecommerce/category/${cat.slug}`}
+                  href={`/category/${cat.slug}`}
                   className="text-sm font-medium text-komma-dark hover:text-primary-500 transition-colors"
                 >
                   {cat.name}
@@ -114,7 +114,7 @@ export default function Header() {
               </li>
             ))}
             <li>
-              <Link href="/ecommerce/events" className="text-sm font-medium text-red-500 hover:text-red-600 transition-colors">
+              <Link href="/events" className="text-sm font-medium text-red-500 hover:text-red-600 transition-colors">
                 EVENT
               </Link>
             </li>
@@ -129,7 +129,7 @@ export default function Header() {
             {categories.map(cat => (
               <li key={cat.slug}>
                 <Link
-                  href={`/ecommerce/category/${cat.slug}`}
+                  href={`/category/${cat.slug}`}
                   className="block px-6 py-3 text-sm hover:bg-gray-50 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -138,7 +138,7 @@ export default function Header() {
               </li>
             ))}
             <li>
-              <Link href="/ecommerce/events" className="block px-6 py-3 text-sm text-red-500 hover:bg-gray-50 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/events" className="block px-6 py-3 text-sm text-red-500 hover:bg-gray-50 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 EVENT
               </Link>
             </li>

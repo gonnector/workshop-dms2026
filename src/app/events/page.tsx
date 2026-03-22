@@ -66,7 +66,7 @@ export default function EventsPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {timeDealProducts.map(product => (
-            <Link key={product.id} href={`/ecommerce/product/${product.id}`} className="bg-white rounded-xl p-4 flex gap-4 group">
+            <Link key={product.id} href={`/product/${product.id}`} className="bg-white rounded-xl p-4 flex gap-4 group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={product.image} alt={product.name} className="w-20 h-20 rounded-lg bg-gray-100 object-cover" />
               <div className="flex-1 text-komma-black">

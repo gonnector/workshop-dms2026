@@ -28,9 +28,9 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3 text-sm">쇼핑 안내</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/ecommerce/mypage" className="hover:text-white transition-colors">마이페이지</Link></li>
-              <li><Link href="/ecommerce/cart" className="hover:text-white transition-colors">장바구니</Link></li>
-              <li><Link href="/ecommerce/events" className="hover:text-white transition-colors">이벤트</Link></li>
+              <li><Link href="/mypage" className="hover:text-white transition-colors">마이페이지</Link></li>
+              <li><Link href="/cart" className="hover:text-white transition-colors">장바구니</Link></li>
+              <li><Link href="/events" className="hover:text-white transition-colors">이벤트</Link></li>
             </ul>
           </div>
 

@@ -59,7 +59,7 @@ export default function CartPage() {
         <div className="text-6xl mb-4">🛒</div>
         <h1 className="text-2xl font-bold mb-2">장바구니가 비어있습니다</h1>
         <p className="text-komma-gray mb-6">마음에 드는 상품을 담아보세요!</p>
-        <Link href="/ecommerce" className="btn-primary inline-block">쇼핑 계속하기</Link>
+        <Link href="/" className="btn-primary inline-block">쇼핑 계속하기</Link>
       </div>
     );
   }
@@ -153,7 +153,7 @@ export default function CartPage() {
             <button onClick={handleCheckout} className="btn-primary w-full mt-6">
               주문하기
             </button>
-            <Link href="/ecommerce" className="block text-center text-sm text-komma-gray hover:text-primary-500 mt-3 transition-colors">
+            <Link href="/" className="block text-center text-sm text-komma-gray hover:text-primary-500 mt-3 transition-colors">
               쇼핑 계속하기
             </Link>
           </div>

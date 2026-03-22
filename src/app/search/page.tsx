@@ -50,7 +50,7 @@ function SearchResults() {
         <div className="text-center py-16">
           <div className="text-4xl mb-4">🔍</div>
           <p className="text-komma-gray mb-4">&ldquo;{query}&rdquo;에 대한 검색 결과가 없습니다.</p>
-          <Link href="/ecommerce" className="text-primary-500 hover:underline text-sm">홈으로 돌아가기</Link>
+          <Link href="/" className="text-primary-500 hover:underline text-sm">홈으로 돌아가기</Link>
         </div>
       ) : (
         <div className="text-center py-16">

@@ -72,7 +72,7 @@ export default function CategoryPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-4">카테고리를 찾을 수 없습니다</h1>
-        <Link href="/ecommerce" className="text-primary-500 hover:underline">홈으로 돌아가기</Link>
+        <Link href="/" className="text-primary-500 hover:underline">홈으로 돌아가기</Link>
       </div>
     );
   }
@@ -81,7 +81,7 @@ export default function CategoryPage() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="text-sm text-komma-gray mb-6">
-        <Link href="/ecommerce" className="hover:text-primary-500">홈</Link>
+        <Link href="/" className="hover:text-primary-500">홈</Link>
         <span className="mx-2">/</span>
         <span className="text-komma-black font-medium">{category.name}</span>
       </nav>

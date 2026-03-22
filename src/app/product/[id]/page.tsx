@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-4">상품을 찾을 수 없습니다</h1>
-        <Link href="/ecommerce" className="text-primary-500 hover:underline">홈으로 돌아가기</Link>
+        <Link href="/" className="text-primary-500 hover:underline">홈으로 돌아가기</Link>
       </div>
     );
   }
@@ -84,9 +84,9 @@ export default function ProductDetailPage() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="text-sm text-komma-gray mb-6">
-        <Link href="/ecommerce" className="hover:text-primary-500">홈</Link>
+        <Link href="/" className="hover:text-primary-500">홈</Link>
         <span className="mx-2">/</span>
-        <Link href={`/ecommerce/category/${product.category}`} className="hover:text-primary-500">
+        <Link href={`/category/${product.category}`} className="hover:text-primary-500">
           {product.category === 'beauty' ? '뷰티' : product.category === 'fashion' ? '패션' : product.category === 'living' ? '리빙' : product.category === 'food' ? '푸드' : '테크'}
         </Link>
         <span className="mx-2">/</span>

@@ -43,8 +43,8 @@ export default function OrderCompletePage() {
       </div>
 
       <div className="flex gap-3 justify-center mb-12">
-        <Link href="/ecommerce/mypage" className="btn-outline">주문 내역 보기</Link>
-        <Link href="/ecommerce" className="btn-primary">쇼핑 계속하기</Link>
+        <Link href="/mypage" className="btn-outline">주문 내역 보기</Link>
+        <Link href="/" className="btn-primary">쇼핑 계속하기</Link>
       </div>
 
       {/* Share buttons */}

@@ -7,9 +7,9 @@ import { categories, getFeaturedProducts, getNewProducts, getSaleProducts } from
 import { setPageType, ClarityEvents } from '@/lib/clarity';
 
 const heroBanners = [
-  { title: '2026 Spring Collection', subtitle: '봄을 맞이하는 새로운 스타일', cta: '컬렉션 보기', link: '/ecommerce/category/fashion', bg: 'from-amber-50 to-orange-50' },
-  { title: 'Beauty Week', subtitle: '인기 뷰티 아이템 최대 30% OFF', cta: '할인 보기', link: '/ecommerce/category/beauty', bg: 'from-pink-50 to-rose-50' },
-  { title: 'Tech Essentials', subtitle: '스마트한 일상을 위한 테크 아이템', cta: '추천 제품', link: '/ecommerce/category/tech', bg: 'from-blue-50 to-indigo-50' },
+  { title: '2026 Spring Collection', subtitle: '봄을 맞이하는 새로운 스타일', cta: '컬렉션 보기', link: '/category/fashion', bg: 'from-amber-50 to-orange-50' },
+  { title: 'Beauty Week', subtitle: '인기 뷰티 아이템 최대 30% OFF', cta: '할인 보기', link: '/category/beauty', bg: 'from-pink-50 to-rose-50' },
+  { title: 'Tech Essentials', subtitle: '스마트한 일상을 위한 테크 아이템', cta: '추천 제품', link: '/category/tech', bg: 'from-blue-50 to-indigo-50' },
 ];
 
 export default function HomePage() {
@@ -84,7 +84,7 @@ export default function HomePage() {
           {categories.map(cat => (
             <Link
               key={cat.slug}
-              href={`/ecommerce/category/${cat.slug}`}
+              href={`/category/${cat.slug}`}
               className="group text-center"
             >
               <div className="aspect-square bg-gray-100 rounded-2xl mb-2 flex items-center justify-center group-hover:bg-primary-50 transition-colors overflow-hidden">
@@ -106,7 +106,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold">인기 상품 🔥</h2>
-          <Link href="/ecommerce/category/beauty" className="text-sm text-komma-gray hover:text-primary-500 transition-colors">전체 보기 →</Link>
+          <Link href="/category/beauty" className="text-sm text-komma-gray hover:text-primary-500 transition-colors">전체 보기 →</Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {featured.map(product => (
@@ -120,7 +120,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-red-600">SALE 🏷️</h2>
-            <Link href="/ecommerce/events" className="text-sm text-red-400 hover:text-red-600 transition-colors">전체 세일 →</Link>
+            <Link href="/events" className="text-sm text-red-400 hover:text-red-600 transition-colors">전체 세일 →</Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {saleProducts.map(product => (

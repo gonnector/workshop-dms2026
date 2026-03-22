@@ -65,7 +65,7 @@ export default function MyPage() {
         <div className="text-center py-12 text-komma-gray">
           <div className="text-4xl mb-3">📦</div>
           <p>주문 내역이 없습니다</p>
-          <Link href="/ecommerce" className="text-primary-500 hover:underline text-sm mt-2 inline-block">쇼핑하러 가기</Link>
+          <Link href="/" className="text-primary-500 hover:underline text-sm mt-2 inline-block">쇼핑하러 가기</Link>
         </div>
       )}
 
@@ -80,7 +80,7 @@ export default function MyPage() {
           <div className="text-center py-12 text-komma-gray">
             <div className="text-4xl mb-3">💝</div>
             <p>찜한 상품이 없습니다</p>
-            <Link href="/ecommerce" className="text-primary-500 hover:underline text-sm mt-2 inline-block">상품 둘러보기</Link>
+            <Link href="/" className="text-primary-500 hover:underline text-sm mt-2 inline-block">상품 둘러보기</Link>
           </div>
         )
       )}
