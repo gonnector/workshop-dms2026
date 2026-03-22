@@ -18,6 +18,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="min-h-screen flex flex-col">
+        {/* Simulation notice banner */}
+        <div className="bg-yellow-400 text-yellow-900 text-center py-2 px-4 text-sm font-medium">
+          이 사이트는 실제 이커머스 사이트가 아니며, 고객 행동 데이터 분석을 위한 모의 시뮬레이션 사이트입니다.
+        </div>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

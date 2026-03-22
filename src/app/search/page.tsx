@@ -11,21 +11,6 @@ function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
 
-  useEffect(() => {
-    setPageType('search');
-    if (query) {
-      ClarityEvents.searchPerformed();
-      claritySet('search_keyword', query);
-    }
-  }, [query]);
-
-  // Tag search result count after results are computed
-  useEffect(() => {
-    if (query) {
-      claritySet('search_result_count', results.length === 0 ? 'no_result' : results.length <= 3 ? 'few' : 'many');
-    }
-  }, [query, results.length]);
-
   const results = useMemo(() => {
     if (!query) return [];
     const q = query.toLowerCase();
@@ -36,6 +21,15 @@ function SearchResults() {
       p.category.includes(q)
     );
   }, [query]);
+
+  useEffect(() => {
+    setPageType('search');
+    if (query) {
+      ClarityEvents.searchPerformed();
+      claritySet('search_keyword', query);
+      claritySet('search_result_count', results.length === 0 ? 'no_result' : results.length <= 3 ? 'few' : 'many');
+    }
+  }, [query, results.length]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
