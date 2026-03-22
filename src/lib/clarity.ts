@@ -12,10 +12,19 @@ declare global {
 // Clarity project ID (to be replaced with actual ID)
 export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
 
+/** Ensure data_source tag is always set alongside other tags */
+function ensureDataSource() {
+  if (typeof window !== 'undefined' && window.clarity) {
+    const source = sessionStorage.getItem('komma_data_source') || 'organic';
+    window.clarity('set', 'data_source', source);
+  }
+}
+
 /** Set a custom tag */
 export function claritySet(key: string, value: string) {
   if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('set', key, value);
+    if (key !== 'data_source') ensureDataSource();
   }
 }
 
@@ -23,6 +32,7 @@ export function claritySet(key: string, value: string) {
 export function clarityEvent(name: string) {
   if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', name);
+    ensureDataSource();
   }
 }
 

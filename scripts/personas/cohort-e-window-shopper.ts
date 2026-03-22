@@ -14,7 +14,7 @@ import {
   pickRandom, pickRandomN, randInt,
   navigateTo, initClarityTags, dismissPopup,
   shortDelay, mediumDelay, longDelay,
-  gradualScroll, scrollToElement, naturalClick,
+  gradualScroll, scrollToElement, naturalClick, humanType,
   logAction, CategorySlug,
 } from '../shared';
 
@@ -38,6 +38,19 @@ const runCohortE: PersonaRunner = async (page: Page, config: SessionConfig) => {
     await page.evaluate(`window.scrollTo({ top: 0, behavior: 'smooth' })`);
     await mediumDelay();
     await gradualScroll(page, 0.5);
+  }
+
+  // Window shoppers search random things out of curiosity
+  if (Math.random() < 0.5) {
+    const searchTerms = ['가방', '쿠션', '코트', '캔들', '선물', '인테리어'];
+    const term = pickRandom(searchTerms);
+    logAction(`검색: "${term}" → 결과 구경 (안 삼)`);
+    await humanType(page, 'input[placeholder="상품을 검색해보세요"]', term);
+    await page.locator('form button[type="submit"]').click();
+    await page.waitForLoadState('domcontentloaded');
+    await mediumDelay();
+    await gradualScroll(page, 0.6);
+    await mediumDelay();
   }
 
   const cat1 = pickRandom(PREFERRED_CATEGORIES);

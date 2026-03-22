@@ -15,7 +15,7 @@ import {
   pickRandom, pickRandomN, randInt,
   navigateTo, initClarityTags, dismissPopup,
   humanDelay, shortDelay, mediumDelay, longDelay,
-  gradualScroll, scrollToElement, naturalClick,
+  gradualScroll, scrollToElement, naturalClick, humanType,
   logAction, CategorySlug,
 } from '../shared';
 
@@ -33,6 +33,19 @@ const runCohortB: PersonaRunner = async (page: Page, config: SessionConfig) => {
   // Browse homepage — scroll through featured products
   await gradualScroll(page, 0.7);
   await mediumDelay();
+
+  // Search for a specific product keyword (researcher does targeted search)
+  const searchTerms = ['세럼', '이어버드', '크림', '헤드폰', '키보드', '앰플', '니트'];
+  if (Math.random() < 0.6) {
+    const term = pickRandom(searchTerms);
+    logAction(`검색: "${term}" → 결과 탐색`);
+    await humanType(page, 'input[placeholder="상품을 검색해보세요"]', term);
+    await page.locator('form button[type="submit"]').click();
+    await page.waitForLoadState('domcontentloaded');
+    await mediumDelay();
+    await gradualScroll(page, 0.5);
+    await mediumDelay();
+  }
 
   const mainCategory = pickRandom(PREFERRED_CATEGORIES);
   logAction(`카테고리(${mainCategory}) 진입 → 평점순 정렬`);
