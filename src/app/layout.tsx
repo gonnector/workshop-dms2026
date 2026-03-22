@@ -30,7 +30,7 @@ export default function RootLayout({
         <Footer />
         <ClarityInit />
         {/* Microsoft Clarity */}
-        <Script id="clarity-script" strategy="afterInteractive"
+        <Script id="clarity-script" strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: `
             (function(c,l,a,r,i,t,y){
               c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
