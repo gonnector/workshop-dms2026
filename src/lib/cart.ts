@@ -1,6 +1,7 @@
 'use client';
 
 import { Product } from '@/data/products';
+import { setWishlistCount, setCartItemCount } from '@/lib/clarity';
 
 export interface CartItem {
   product: Product;
@@ -45,6 +46,7 @@ export function addToCart(product: Product, quantity = 1, selectedColor?: string
   }
 
   setStorage(CART_KEY, cart);
+  setCartItemCount(cart.length);
   window.dispatchEvent(new Event('cart-updated'));
   return cart;
 }
@@ -55,6 +57,7 @@ export function removeFromCart(productId: string, selectedColor?: string, select
     item => !(item.product.id === productId && item.selectedColor === selectedColor && item.selectedSize === selectedSize)
   );
   setStorage(CART_KEY, cart);
+  setCartItemCount(cart.length);
   window.dispatchEvent(new Event('cart-updated'));
   return cart;
 }
@@ -99,6 +102,7 @@ export function toggleWishlist(productId: string): string[] {
     wishlist.push(productId);
   }
   setStorage(WISHLIST_KEY, wishlist);
+  setWishlistCount(wishlist.length);
   window.dispatchEvent(new Event('wishlist-updated'));
   return wishlist;
 }

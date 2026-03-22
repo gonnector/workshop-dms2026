@@ -72,6 +72,15 @@ export function setCohort(cohort: CohortId) {
   claritySet('cohort', cohort);
 }
 
+// --- Wishlist/Cart behavior tags ---
+export function setWishlistCount(count: number) {
+  claritySet('wishlist_count', count === 0 ? 'empty' : count <= 3 ? 'few' : 'many');
+}
+
+export function setCartItemCount(count: number) {
+  claritySet('cart_item_count', count === 0 ? 'empty' : count <= 2 ? 'few' : 'many');
+}
+
 // --- Custom Events ---
 export const ClarityEvents = {
   searchPerformed: () => clarityEvent('search_performed'),
