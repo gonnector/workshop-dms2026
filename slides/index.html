@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMS 2026 Workshop — 행동 데이터 기반 STP 분석</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --r-heading-font: 'Noto Sans KR', sans-serif;
+      --r-main-font: 'Noto Sans KR', sans-serif;
+      --r-heading-color: #1a1a1a;
+      --r-main-color: #2d2d2d;
+      --r-link-color: #ee7711;
+      --r-background-color: #fafaf9;
+    }
+    .reveal { font-size: 28px; }
+    .reveal h1 { font-size: 2.2em; font-weight: 900; letter-spacing: -0.02em; }
+    .reveal h2 { font-size: 1.6em; font-weight: 700; color: #1a1a1a; margin-bottom: 0.6em; }
+    .reveal h3 { font-size: 1.2em; font-weight: 700; color: #ee7711; }
+    .reveal p, .reveal li { font-weight: 400; line-height: 1.7; }
+    .reveal .small { font-size: 0.7em; color: #6b7280; }
+    .reveal .accent { color: #ee7711; font-weight: 700; }
+    .reveal .highlight { background: linear-gradient(transparent 60%, #fef3c7 60%); }
+    .reveal .tag { display: inline-block; padding: 0.15em 0.6em; border-radius: 9999px; font-size: 0.7em; font-weight: 600; margin: 0.1em; }
+    .reveal .tag-orange { background: #fef3c7; color: #92400e; }
+    .reveal .tag-blue { background: #dbeafe; color: #1e40af; }
+    .reveal .tag-green { background: #d1fae5; color: #065f46; }
+    .reveal .tag-red { background: #fee2e2; color: #991b1b; }
+    .reveal .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .reveal .box { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.2em; margin: 0.5em 0; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .reveal .box-accent { border-left: 4px solid #ee7711; }
+    .reveal .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+    .reveal .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; }
+    .reveal .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8em; }
+    .reveal .emoji-big { font-size: 2.5em; margin-bottom: 0.3em; }
+    .reveal .vs { display: flex; align-items: center; justify-content: center; gap: 1em; }
+    .reveal .vs-badge { background: #1a1a1a; color: white; padding: 0.3em 0.8em; border-radius: 9999px; font-weight: 700; font-size: 0.8em; }
+    .reveal .prompt-box { background: #1e293b; color: #e2e8f0; padding: 1em; border-radius: 8px; font-family: monospace; font-size: 0.75em; text-align: left; line-height: 1.6; }
+    .reveal .number-circle { display: inline-flex; align-items: center; justify-content: center; width: 2em; height: 2em; border-radius: 50%; background: #ee7711; color: white; font-weight: 700; margin-right: 0.3em; }
+    .title-slide { background: linear-gradient(135deg, #1a1a1a 0%, #374151 100%) !important; }
+    .title-slide h1, .title-slide h2, .title-slide p { color: white !important; }
+    .title-slide .accent { color: #f59e0b !important; }
+    .section-slide { background: linear-gradient(135deg, #ee7711 0%, #f59e0b 100%) !important; }
+    .section-slide h2 { color: white !important; }
+    .section-slide p { color: rgba(255,255,255,0.9) !important; }
+    .dark-slide { background: #1e293b !important; }
+    .dark-slide h2, .dark-slide h3, .dark-slide p, .dark-slide li { color: #e2e8f0 !important; }
+    .reveal table { font-size: 0.75em; border-collapse: collapse; width: 100%; }
+    .reveal table th { background: #f3f4f6; font-weight: 700; padding: 0.6em; }
+    .reveal table td { padding: 0.6em; border-bottom: 1px solid #e5e7eb; }
+    .reveal .fragment.fade-up { transform: translateY(20px); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- TITLE -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a1a">
+  <h2 style="color:#f59e0b; font-size:0.9em; font-weight:500; margin-bottom:0.3em;">DMS 2026 Workshop</h2>
+  <h1 style="color:white; font-size:1.8em; line-height:1.3;">고객 행동 데이터로<br/>STP 인사이트 도출하기</h1>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em; margin-top:1.5em;">
+    Microsoft Clarity + Claude Code 활용 실습
+  </p>
+  <p style="color:rgba(255,255,255,0.5); font-size:0.6em; margin-top:2em;">
+    고영혁 · Gonnector 대표 · 2026.03.24
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- AGENDA -->
+<!-- ============================================================ -->
+<section>
+  <h2>오늘의 여정</h2>
+  <div style="text-align:left; max-width:700px; margin:0 auto;">
+    <div class="box" style="margin-bottom:0.5em;"><span class="number-circle">1</span> <strong>아이스 브레이킹</strong> <span class="small">15분</span></div>
+    <div class="box" style="margin-bottom:0.5em;"><span class="number-circle">2</span> <strong>고객 여정 & STP 방법론</strong> <span class="small">30분</span></div>
+    <div class="box" style="margin-bottom:0.5em;"><span class="number-circle">3</span> <strong>Clarity & Claude Code 소개</strong> <span class="small">30분</span></div>
+    <div class="box" style="margin-bottom:0.5em; opacity:0.5;">☕ 휴식 <span class="small">15분</span></div>
+    <div class="box" style="margin-bottom:0.5em;"><span class="number-circle">4</span> <strong>샘플 사이트 & 데이터 안내</strong> <span class="small">10분</span></div>
+    <div class="box" style="margin-bottom:0.5em;"><span class="number-circle">5</span> <strong>실습: 인사이트 도출</strong> <span class="small">50분</span></div>
+    <div class="box"><span class="number-circle">6</span> <strong>피드백 & Q&A</strong> <span class="small">20분</span></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 1: ICE BREAKING -->
+<!-- ============================================================ -->
+<section data-background-color="#ee7711">
+  <h2 style="color:white; font-size:1.4em;">Part 1</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">아이스 브레이킹</p>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">15분</p>
+</section>
+
+<section>
+  <h2>사전 설문 인사이트</h2>
+  <p class="small">(사전 설문 결과를 기반으로 라이브 공유)</p>
+  <div class="grid-3" style="margin-top:1em;">
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">🎯</div>
+      <h3>참석 목적</h3>
+      <p class="small">데이터 분석? 마케팅? AI 활용?</p>
+    </div>
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">📊</div>
+      <h3>현재 도구</h3>
+      <p class="small">GA? 자체 솔루션? 처음?</p>
+    </div>
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">🤖</div>
+      <h3>AI 경험</h3>
+      <p class="small">Claude? ChatGPT? 코딩형 AI?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 2: CUSTOMER JOURNEY & STP -->
+<!-- ============================================================ -->
+<section data-background-color="#ee7711">
+  <h2 style="color:white; font-size:1.4em;">Part 2</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">고객 여정 & STP 방법론</p>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">30분</p>
+</section>
+
+<section>
+  <h2>이커머스 고객 여정</h2>
+  <div style="display:flex; align-items:center; justify-content:center; gap:0.3em; margin:1.5em 0;">
+    <div class="box" style="text-align:center; flex:1;"><div style="font-size:1.5em;">👀</div><strong>인지</strong><br/><span class="small">방문, 검색</span></div>
+    <div style="font-size:1.5em; color:#d1d5db;">→</div>
+    <div class="box" style="text-align:center; flex:1;"><div style="font-size:1.5em;">🔍</div><strong>탐색</strong><br/><span class="small">상품 조회, 비교</span></div>
+    <div style="font-size:1.5em; color:#d1d5db;">→</div>
+    <div class="box" style="text-align:center; flex:1;"><div style="font-size:1.5em;">💝</div><strong>고려</strong><br/><span class="small">리뷰, 찜하기</span></div>
+    <div style="font-size:1.5em; color:#d1d5db;">→</div>
+    <div class="box" style="text-align:center; flex:1;"><div style="font-size:1.5em;">🛒</div><strong>결정</strong><br/><span class="small">장바구니</span></div>
+    <div style="font-size:1.5em; color:#d1d5db;">→</div>
+    <div class="box" style="text-align:center; flex:1;"><div style="font-size:1.5em;">💳</div><strong>구매</strong><br/><span class="small">결제 완료</span></div>
+  </div>
+  <p class="fragment">각 단계에서 <span class="accent">행동 데이터</span>가 발생합니다</p>
+</section>
+
+<section>
+  <h2>행동 데이터란?</h2>
+  <div class="grid-2">
+    <div class="box box-accent">
+      <h3>클릭</h3>
+      <p class="small">어디를 클릭했는가? 어떤 버튼? 어떤 상품?</p>
+    </div>
+    <div class="box box-accent">
+      <h3>스크롤</h3>
+      <p class="small">어디까지 봤는가? 리뷰까지 도달했는가?</p>
+    </div>
+    <div class="box box-accent">
+      <h3>체류 시간</h3>
+      <p class="small">얼마나 오래 머물렀는가? 어떤 페이지에?</p>
+    </div>
+    <div class="box box-accent">
+      <h3>이동 경로</h3>
+      <p class="small">어디서 왔고 어디로 갔는가? 이탈 지점은?</p>
+    </div>
+  </div>
+  <p class="fragment" style="margin-top:1em;">이 데이터 속에 <span class="highlight">고객의 의도와 니즈</span>가 숨어 있습니다</p>
+</section>
+
+<section>
+  <h2>STP — 마케팅의 핵심</h2>
+  <div class="grid-3" style="margin-top:1em;">
+    <div class="box" style="text-align:center; border-top: 4px solid #ee7711;">
+      <h3>S</h3>
+      <p style="font-size:1.1em; font-weight:700;">Segmentation</p>
+      <p class="small">고객을 행동 패턴으로<br/>의미 있는 그룹으로 나누기</p>
+    </div>
+    <div class="box" style="text-align:center; border-top: 4px solid #3b82f6;">
+      <h3 style="color:#3b82f6;">T</h3>
+      <p style="font-size:1.1em; font-weight:700;">Targeting</p>
+      <p class="small">가장 가치 있는 세그먼트를<br/>우선순위로 선택하기</p>
+    </div>
+    <div class="box" style="text-align:center; border-top: 4px solid #10b981;">
+      <h3 style="color:#10b981;">P</h3>
+      <p style="font-size:1.1em; font-weight:700;">Positioning</p>
+      <p class="small">타겟에게 최적의<br/>메시지와 전략 수립</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>행동 데이터 × STP</h2>
+  <table>
+    <tr><th>STP 단계</th><th>전통적 방법</th><th>행동 데이터 기반</th></tr>
+    <tr><td><strong>S</strong>egmentation</td><td>설문, 인구통계</td><td>클릭/스크롤/체류 패턴 클러스터링</td></tr>
+    <tr><td><strong>T</strong>argeting</td><td>직관, 경험</td><td>전환율 × 객단가 × 세그먼트 크기</td></tr>
+    <tr><td><strong>P</strong>ositioning</td><td>브레인스토밍</td><td>세그먼트별 관심 카테고리/콘텐츠 패턴</td></tr>
+  </table>
+  <p class="fragment" style="margin-top:1em;">
+    <span class="accent">오늘 실습</span>: 실제 행동 데이터로 STP 분석을 수행합니다
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 3: CLARITY & CLAUDE CODE -->
+<!-- ============================================================ -->
+<section data-background-color="#ee7711">
+  <h2 style="color:white; font-size:1.4em;">Part 3</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">Clarity & Claude Code</p>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">30분</p>
+</section>
+
+<section>
+  <h2>Microsoft Clarity</h2>
+  <p style="font-size:1.1em; margin-bottom:0.5em;"><span class="highlight">완전 무료</span>이면서 <span class="highlight">매우 강력한</span> 행동 분석 도구</p>
+  <div class="grid-2" style="margin-top:1em;">
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">🔥</div>
+      <h3>히트맵</h3>
+      <p class="small">클릭/스크롤/영역/전환 히트맵<br/>5가지 타입</p>
+    </div>
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">🎬</div>
+      <h3>세션 리코딩</h3>
+      <p class="small">실제 사용자 행동을<br/>영상으로 재생</p>
+    </div>
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">📊</div>
+      <h3>퍼널 분석</h3>
+      <p class="small">단계별 전환율과<br/>이탈 지점 파악</p>
+    </div>
+    <div class="box" style="text-align:center;">
+      <div class="emoji-big">🤖</div>
+      <h3>Copilot AI</h3>
+      <p class="small">자연어로 데이터 질의<br/>세션 AI 요약</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Clarity 핵심 기능</h2>
+  <div style="text-align:left;">
+    <div class="box" style="margin-bottom:0.5em;">
+      <strong>Smart Events (자동 감지)</strong><br/>
+      <span class="tag tag-red">Dead Clicks</span>
+      <span class="tag tag-red">Rage Clicks</span>
+      <span class="tag tag-orange">Quick Backs</span>
+      <span class="tag tag-orange">Excessive Scrolling</span>
+      <span class="tag tag-red">JS Errors</span>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <strong>Custom Tags & Events</strong><br/>
+      <span class="tag tag-blue">pageType</span>
+      <span class="tag tag-blue">category_interest</span>
+      <span class="tag tag-blue">cart_value</span>
+      <span class="tag tag-blue">funnel_stage</span>
+      <span class="tag tag-green">add_to_cart</span>
+      <span class="tag tag-green">purchase_completed</span>
+    </div>
+    <div class="box">
+      <strong>40+ 필터 & 세그먼트 저장</strong><br/>
+      <span class="small">디바이스, 브라우저, 국가, 커스텀 태그, 퍼널 단계 등으로 자유롭게 필터링</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Clarity Copilot</h2>
+  <p>내장 AI — <span class="accent">무료, 일일 제한 없음</span></p>
+  <div class="grid-2" style="margin-top:1em;">
+    <div class="box">
+      <h3>자연어 질의</h3>
+      <p class="small">"rage click이 가장 많은 페이지는?"<br/>"구매 완료한 사용자의 평균 체류시간은?"</p>
+    </div>
+    <div class="box">
+      <h3>세션 AI 요약</h3>
+      <p class="small">세션 영상을 보지 않고도<br/>핵심 행동을 텍스트로 파악</p>
+    </div>
+    <div class="box">
+      <h3>250 세션 일괄 분석</h3>
+      <p class="small">Grouped Session Insights로<br/>대량 세션 패턴 한 번에 요약</p>
+    </div>
+    <div class="box">
+      <h3>히트맵 인사이트</h3>
+      <p class="small">히트맵 데이터를 AI가<br/>자동으로 해석</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Claude Code</h2>
+  <p>데이터 분석을 위한 <span class="accent">AI 에이전트</span></p>
+  <div class="box box-accent" style="margin:1em 0;">
+    <p>CLI(터미널)에서 동작하는 AI 에이전트로, 데이터 파일을 직접 읽고, 분석 코드를 작성하고, 시각화를 생성하고, 인사이트를 도출합니다.</p>
+  </div>
+  <div class="grid-3">
+    <div style="text-align:center;">
+      <span class="tag tag-purple">데이터 탐색</span><br/>
+      <span class="small">CSV 구조 파악, 기술 통계</span>
+    </div>
+    <div style="text-align:center;">
+      <span class="tag tag-purple">분석 & 시각화</span><br/>
+      <span class="small">클러스터링, 차트 생성</span>
+    </div>
+    <div style="text-align:center;">
+      <span class="tag tag-purple">인사이트 도출</span><br/>
+      <span class="small">STP 리포트 자동 생성</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Copilot vs Claude Code</h2>
+  <table>
+    <tr><th></th><th>Clarity Copilot</th><th>Claude Code</th></tr>
+    <tr><td><strong>데이터 범위</strong></td><td>Clarity 내부 데이터</td><td>Export된 CSV + 외부 데이터</td></tr>
+    <tr><td><strong>분석 깊이</strong></td><td>요약/질의 수준</td><td>통계 모델링, 클러스터링</td></tr>
+    <tr><td><strong>시각화</strong></td><td>대시보드 내 고정</td><td>자유로운 커스텀 차트</td></tr>
+    <tr><td><strong>자동화</strong></td><td>수동 질의</td><td>파이프라인 구축 가능</td></tr>
+    <tr><td><strong>강점</strong></td><td>빠른 탐색, 세션 요약</td><td>심층 분석, 예측, 리포팅</td></tr>
+  </table>
+  <p class="fragment" style="margin-top:0.8em;">
+    <span class="accent">둘 다 씁니다!</span> Copilot으로 빠르게 탐색 → Claude Code로 심층 분석
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- BREAK -->
+<!-- ============================================================ -->
+<section data-background-color="#f3f4f6">
+  <div style="font-size:4em;">☕</div>
+  <h2>휴식 시간</h2>
+  <p class="small">15분</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 4: SAMPLE SITE & DATA -->
+<!-- ============================================================ -->
+<section data-background-color="#ee7711">
+  <h2 style="color:white; font-size:1.4em;">Part 4</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">샘플 사이트 & 데이터</p>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">10분</p>
+</section>
+
+<section>
+  <h2>KOMMA — 샘플 이커머스 사이트</h2>
+  <div class="grid-2">
+    <div>
+      <div class="box">
+        <h3>5개 카테고리</h3>
+        <span class="tag tag-orange">뷰티</span>
+        <span class="tag tag-blue">패션</span>
+        <span class="tag tag-green">리빙</span>
+        <span class="tag tag-red">푸드</span>
+        <span class="tag tag-purple">테크</span>
+      </div>
+      <div class="box" style="margin-top:0.5em;">
+        <h3>45개 상품</h3>
+        <p class="small">카테고리당 9개, 다양한 가격대/평점/리뷰</p>
+      </div>
+      <div class="box" style="margin-top:0.5em;">
+        <h3>전체 구매 여정</h3>
+        <p class="small">홈 → 카테고리 → 상품 → 장바구니 → 체크아웃 → 완료</p>
+      </div>
+    </div>
+    <div>
+      <div class="box" style="text-align:center; padding:2em;">
+        <p style="font-size:2em; font-weight:900; letter-spacing:-0.02em;">KOMMA</p>
+        <p class="small">Korean Lifestyle E-commerce</p>
+        <p style="margin-top:1em;"><a href="https://workshop.gonnector.com/ecommerce" target="_blank" style="color:#ee7711;">workshop.gonnector.com/ecommerce</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>시뮬레이션 데이터</h2>
+  <p>5개 코호트의 봇이 사이트를 탐색하며 생성한 <span class="accent">~1,000 세션</span></p>
+  <div class="grid-2" style="margin-top:1em;">
+    <div class="box">
+      <h3>코호트 구조</h3>
+      <table>
+        <tr><th>코호트</th><th>비율</th><th>특성은?</th></tr>
+        <tr><td>cohort_A</td><td>25%</td><td rowspan="5" style="text-align:center; color:#ee7711; font-weight:700; font-size:1.2em;">여러분이<br/>분석해서<br/>알아내세요!</td></tr>
+        <tr><td>cohort_B</td><td>20%</td></tr>
+        <tr><td>cohort_C</td><td>20%</td></tr>
+        <tr><td>cohort_D</td><td>15%</td></tr>
+        <tr><td>cohort_E</td><td>20%</td></tr>
+      </table>
+    </div>
+    <div class="box">
+      <h3>분석 도전 과제</h3>
+      <ol style="font-size:0.85em;">
+        <li>각 코호트의 <strong>행동 특성</strong>을 파악하세요</li>
+        <li>어떤 코호트가 <strong>가장 가치</strong> 있는지 판단하세요</li>
+        <li>각 코호트에 <strong>최적의 마케팅 전략</strong>을 제안하세요</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 5: HANDS-ON -->
+<!-- ============================================================ -->
+<section data-background-color="#ee7711">
+  <h2 style="color:white; font-size:1.4em;">Part 5</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">실습: 인사이트 도출</p>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">50분</p>
+</section>
+
+<section>
+  <h2>실습 구조</h2>
+  <div class="grid-2">
+    <div class="box" style="border-top:4px solid #ee7711;">
+      <h3>Round 1 — Clarity 탐색</h3>
+      <p class="small" style="margin-bottom:0.5em;">15분 · Clarity 네이티브 도구</p>
+      <div style="font-size:0.8em;">
+        <p><span class="number-circle" style="font-size:0.7em; width:1.5em; height:1.5em;">1</span> 대시보드 개요 파악</p>
+        <p><span class="number-circle" style="font-size:0.7em; width:1.5em; height:1.5em;">2</span> 코호트별 히트맵 비교</p>
+        <p><span class="number-circle" style="font-size:0.7em; width:1.5em; height:1.5em;">3</span> 세션 리코딩 관찰</p>
+        <p>→ 1차 가설: "cohort_A는 아마도 ~"</p>
+      </div>
+    </div>
+    <div class="box" style="border-top:4px solid #3b82f6;">
+      <h3 style="color:#3b82f6;">Round 2 — Claude Code 분석</h3>
+      <p class="small" style="margin-bottom:0.5em;">25분 · Export 데이터 + AI 에이전트</p>
+      <div style="font-size:0.8em;">
+        <p><span class="number-circle" style="font-size:0.7em; width:1.5em; height:1.5em; background:#3b82f6;">4</span> CSV 데이터 다운로드</p>
+        <p><span class="number-circle" style="font-size:0.7em; width:1.5em; height:1.5em; background:#3b82f6;">5</span> Claude Code로 분석</p>
+        <p><span class="number-circle" style="font-size:0.7em; width:1.5em; height:1.5em; background:#3b82f6;">6</span> STP 인사이트 도출</p>
+        <p>→ 정답 비교 & 마케팅 전략</p>
+      </div>
+    </div>
+  </div>
+  <p class="fragment small" style="margin-top:0.8em;">FigJam에 인사이트를 등록해주세요</p>
+</section>
+
+<section>
+  <h2>Round 1 — Clarity 탐색 가이드</h2>
+  <div style="text-align:left;">
+    <div class="box" style="margin-bottom:0.5em;">
+      <strong>Step 1: 대시보드</strong><br/>
+      <span class="small">세션 수, 페이지뷰, Dead/Rage clicks 확인 → 전체적인 사이트 건강도 파악</span>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <strong>Step 2: 코호트별 필터 적용</strong><br/>
+      <span class="small">Filters → Custom Tags → cohort = cohort_A → 대시보드 지표 변화 관찰<br/>
+      다른 코호트로 전환하며 비교</span>
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <strong>Step 3: 히트맵 Compare</strong><br/>
+      <span class="small">히트맵 → Compare 모드 → cohort_A vs cohort_B → 클릭 패턴 차이 시각 확인</span>
+    </div>
+    <div class="box">
+      <strong>Step 4: 세션 리코딩</strong><br/>
+      <span class="small">코호트별 2~3개 세션 리코딩 관찰 → 실제 행동 패턴 체감</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Round 2 — Claude Code 프롬프트</h2>
+  <div class="prompt-box" style="margin-bottom:0.8em;">
+    <span style="color:#94a3b8;">Level 1 — 기본 탐색</span><br/>
+    "이 CSV 파일의 구조를 분석하고 코호트별 기술 통계를 비교해줘"
+  </div>
+  <div class="prompt-box" style="margin-bottom:0.8em;">
+    <span style="color:#94a3b8;">Level 2 — 패턴 발견</span><br/>
+    "코호트별 행동 차이를 시각화하고 각 코호트의 특성을 추정해줘"
+  </div>
+  <div class="prompt-box" style="margin-bottom:0.8em;">
+    <span style="color:#94a3b8;">Level 3 — 세그먼트 추정</span><br/>
+    "라벨 없이 클러스터링해서 세그먼트를 추정하고, 실제 코호트와 비교해줘"
+  </div>
+  <div class="prompt-box">
+    <span style="color:#94a3b8;">Level 4 — STP 전략</span><br/>
+    "STP 관점에서 세그먼트별 마케팅 액션 플랜을 도출해줘"
+  </div>
+  <p class="small" style="margin-top:0.5em;">이 프롬프트를 기반으로 자유롭게 변형해보세요!</p>
+</section>
+
+<section>
+  <h2>FigJam 인사이트 등록</h2>
+  <div class="box box-accent">
+    <p>분석 결과를 FigJam 보드에 포스트잇으로 붙여주세요</p>
+    <div class="grid-3" style="margin-top:1em;">
+      <div style="text-align:center;">
+        <span class="tag tag-orange" style="font-size:1em;">S</span>
+        <p class="small">발견한 세그먼트 특성</p>
+      </div>
+      <div style="text-align:center;">
+        <span class="tag tag-blue" style="font-size:1em;">T</span>
+        <p class="small">타겟 우선순위 판단</p>
+      </div>
+      <div style="text-align:center;">
+        <span class="tag tag-green" style="font-size:1em;">P</span>
+        <p class="small">마케팅 전략 제안</p>
+      </div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:1em;">FigJam 링크: <span class="accent">(워크숍 시작 시 공유)</span></p>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 6: WRAP UP -->
+<!-- ============================================================ -->
+<section data-background-color="#ee7711">
+  <h2 style="color:white; font-size:1.4em;">Part 6</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">피드백 & Q&A</p>
+  <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">20분</p>
+</section>
+
+<section>
+  <h2>정답 공개</h2>
+  <table>
+    <tr><th>코호트</th><th>정체</th><th>핵심 행동</th></tr>
+    <tr><td>cohort_A</td><td class="accent">가성비 헌터</td><td>할인 상품 직행, 쿠폰 사용, 빠른 구매</td></tr>
+    <tr><td>cohort_B</td><td class="accent">신중한 연구자</td><td>리뷰 정독, 찜하기, 비교 탐색</td></tr>
+    <tr><td>cohort_C</td><td class="accent">트렌드 팔로워</td><td>배너 클릭, 신상품 위주, SNS 공유</td></tr>
+    <tr><td>cohort_D</td><td class="accent">충성 고객</td><td>직접 접속, 빠른 구매, 리뷰 스킵</td></tr>
+    <tr><td>cohort_E</td><td class="accent">윈도우 쇼퍼</td><td>많이 보고 안 삼, 장바구니 이탈</td></tr>
+  </table>
+  <p class="fragment" style="margin-top:0.8em;">여러분의 분석과 얼마나 일치했나요?</p>
+</section>
+
+<section>
+  <h2>현실 세계에서는?</h2>
+  <div class="box box-accent" style="font-size:0.95em;">
+    <p>워크숍에서는 <code>cohort_A~E</code> 라벨이 있었지만,<br/>
+    현실에서는 <strong>라벨이 없습니다.</strong></p>
+  </div>
+  <div class="fragment" style="margin-top:1em;">
+    <p>그러나 <span class="accent">같은 방법론</span>이 그대로 적용됩니다:</p>
+    <div class="grid-2" style="margin-top:0.5em;">
+      <div class="box" style="text-align:center;">
+        <p><strong>Clarity</strong></p>
+        <p class="small">행동 시그널 수집<br/>(클릭, 스크롤, 체류, 이탈)</p>
+      </div>
+      <div class="box" style="text-align:center;">
+        <p><strong>Claude Code</strong></p>
+        <p class="small">라벨 없이 클러스터링<br/>→ 세그먼트 자동 발견</p>
+      </div>
+    </div>
+  </div>
+  <p class="fragment" style="margin-top:0.8em;">
+    <span class="highlight">여러분의 사이트에 Clarity를 붙이면, 내일부터 바로 시작할 수 있습니다</span>
+  </p>
+</section>
+
+<section>
+  <h2>핵심 정리</h2>
+  <div style="text-align:left; max-width:700px; margin:0 auto;">
+    <div class="box" style="margin-bottom:0.5em;">
+      <span class="accent">1.</span> 고객 행동 데이터에는 <strong>STP 인사이트</strong>가 숨어 있다
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <span class="accent">2.</span> <strong>Clarity</strong>(무료)로 행동 데이터를 수집하고 탐색할 수 있다
+    </div>
+    <div class="box" style="margin-bottom:0.5em;">
+      <span class="accent">3.</span> <strong>Claude Code</strong>로 심층 분석과 전략 도출을 자동화할 수 있다
+    </div>
+    <div class="box">
+      <span class="accent">4.</span> 이 조합으로 <strong>빠르고 쉽게</strong> 액셔너블 인사이트를 얻을 수 있다
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#1a1a1a">
+  <h2 style="color:white;">자료 공유</h2>
+  <div class="box" style="background:#2d2d2d; border:none; max-width:500px; margin:1em auto;">
+    <p style="color:#e2e8f0;"><strong>GitHub (오픈소스)</strong></p>
+    <p><a href="https://github.com/gonnector/workshop-dms2026" target="_blank" style="color:#f59e0b;">github.com/gonnector/workshop-dms2026</a></p>
+    <p style="color:#9ca3af; font-size:0.7em; margin-top:0.5em;">사이트 코드 · 실습 데이터 · 슬라이드 · 봇 시뮬레이션 스크립트</p>
+  </div>
+  <p style="color:rgba(255,255,255,0.6); font-size:0.7em; margin-top:2em;">
+    감사합니다! 질문은 언제든 환영합니다.<br/>
+    gonnector@gonnector.com
+  </p>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    width: 1200,
+    height: 700,
+    margin: 0.08,
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    controlsTutorial: false,
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "komma-traffic-simulator",
+  "version": "1.0.0",
+  "description": "Playwright-based bot simulation for KOMMA e-commerce site (DMS 2026 Workshop)",
+  "scripts": {
+    "simulate": "npx tsx simulate-traffic.ts",
+    "simulate:headed": "HEADLESS=false npx tsx simulate-traffic.ts",
+    "simulate:small": "TOTAL_SESSIONS=10 npx tsx simulate-traffic.ts",
+    "simulate:debug": "HEADLESS=false TOTAL_SESSIONS=5 npx tsx simulate-traffic.ts"
+  },
+  "dependencies": {
+    "playwright": "^1.52.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}
