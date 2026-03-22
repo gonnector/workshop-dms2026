@@ -12,19 +12,10 @@ declare global {
 // Clarity project ID (to be replaced with actual ID)
 export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
 
-/** Ensure data_source tag is always set alongside other tags */
-function ensureDataSource() {
-  if (typeof window !== 'undefined' && window.clarity) {
-    const source = sessionStorage.getItem('komma_data_source') || 'organic';
-    window.clarity('set', 'data_source', source);
-  }
-}
-
 /** Set a custom tag */
 export function claritySet(key: string, value: string) {
   if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('set', key, value);
-    if (key !== 'data_source') ensureDataSource();
   }
 }
 
@@ -32,7 +23,6 @@ export function claritySet(key: string, value: string) {
 export function clarityEvent(name: string) {
   if (typeof window !== 'undefined' && window.clarity) {
     window.clarity('event', name);
-    ensureDataSource();
   }
 }
 
@@ -47,27 +37,14 @@ export function clarityIdentify(userId: string, sessionId?: string) {
 const DATA_SOURCE_KEY = 'komma_data_source';
 
 export function initDataSource() {
+  // Only handles sessionStorage — Clarity tagging is done by vanilla JS in layout.tsx
   if (typeof window === 'undefined') return;
 
-  // Check URL param first (e.g. ?mode=test)
   const params = new URLSearchParams(window.location.search);
   const mode = params.get('mode');
   if (mode === 'test' || mode === 'simulation') {
     sessionStorage.setItem(DATA_SOURCE_KEY, mode);
   }
-
-  // Read from sessionStorage (persists across page navigations)
-  const source = sessionStorage.getItem(DATA_SOURCE_KEY) || 'organic';
-
-  // Retry until Clarity is loaded (script loads afterInteractive)
-  const setTag = () => {
-    if (window.clarity) {
-      window.clarity('set', 'data_source', source);
-    } else {
-      setTimeout(setTag, 200);
-    }
-  };
-  setTag();
 }
 
 // --- Page Type Tags ---

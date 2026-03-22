@@ -37,6 +37,27 @@ export default function RootLayout({
               t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
               y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
             })(window, document, "clarity", "script", "vzqk2qmx8p");
+
+            (function(){
+              var key = 'komma_data_source';
+              var p = new URLSearchParams(window.location.search);
+              var m = p.get('mode');
+              if (m === 'test' || m === 'simulation') sessionStorage.setItem(key, m);
+
+              function tag() {
+                var s = sessionStorage.getItem(key) || 'organic';
+                if (typeof window.clarity === 'function') window.clarity('set', 'data_source', s);
+              }
+
+              var iv = setInterval(function(){ if(typeof window.clarity==='function'){tag();clearInterval(iv);} }, 200);
+
+              var origPush = history.pushState;
+              history.pushState = function(){
+                origPush.apply(this, arguments);
+                setTimeout(tag, 500);
+              };
+              window.addEventListener('popstate', function(){ setTimeout(tag, 500); });
+            })();
           `}}
         />
       </body>
