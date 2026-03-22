@@ -7,9 +7,9 @@ import { categories, getFeaturedProducts, getNewProducts, getSaleProducts } from
 import { setPageType, ClarityEvents } from '@/lib/clarity';
 
 const heroBanners = [
-  { title: '2026 Spring Collection', subtitle: '봄을 맞이하는 새로운 스타일', cta: '컬렉션 보기', link: '/category/fashion', bg: 'from-amber-50 to-orange-50' },
-  { title: 'Beauty Week', subtitle: '인기 뷰티 아이템 최대 30% OFF', cta: '할인 보기', link: '/category/beauty', bg: 'from-pink-50 to-rose-50' },
-  { title: 'Tech Essentials', subtitle: '스마트한 일상을 위한 테크 아이템', cta: '추천 제품', link: '/category/tech', bg: 'from-blue-50 to-indigo-50' },
+  { title: '2026 Spring Collection', subtitle: '봄을 맞이하는 새로운 스타일', cta: '컬렉션 보기', link: '/category/fashion', bg: 'from-amber-50 to-orange-50', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1400&h=500&fit=crop&auto=format&q=80' },
+  { title: 'Beauty Week', subtitle: '인기 뷰티 아이템 최대 30% OFF', cta: '할인 보기', link: '/category/beauty', bg: 'from-pink-50 to-rose-50', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1400&h=500&fit=crop&auto=format&q=80' },
+  { title: 'Tech Essentials', subtitle: '스마트한 일상을 위한 테크 아이템', cta: '추천 제품', link: '/category/tech', bg: 'from-blue-50 to-indigo-50', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1400&h=500&fit=crop&auto=format&q=80' },
 ];
 
 export default function HomePage() {
@@ -53,14 +53,19 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Banner */}
-      <section className={`bg-gradient-to-r ${banner.bg} transition-all duration-500`}>
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
+      <section className="relative overflow-hidden h-[320px] md:h-[420px] transition-all duration-500">
+        {/* Background image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={banner.image} alt="" className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+
+        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">
           <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-komma-black mb-4 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
               {banner.title}
             </h1>
-            <p className="text-lg text-komma-gray mb-8">{banner.subtitle}</p>
-            <Link href={banner.link} className="btn-primary inline-block" onClick={() => ClarityEvents.bannerClicked()}>
+            <p className="text-lg text-white/80 mb-8 drop-shadow">{banner.subtitle}</p>
+            <Link href={banner.link} className="btn-primary inline-block shadow-lg" onClick={() => ClarityEvents.bannerClicked()}>
               {banner.cta}
             </Link>
           </div>
@@ -70,7 +75,7 @@ export default function HomePage() {
               <button
                 key={i}
                 onClick={() => handleBannerClick(i)}
-                className={`w-2.5 h-2.5 rounded-full transition-colors ${i === currentBanner ? 'bg-komma-black' : 'bg-gray-300'}`}
+                className={`w-3 h-3 rounded-full transition-colors shadow ${i === currentBanner ? 'bg-white' : 'bg-white/40'}`}
               />
             ))}
           </div>
@@ -79,24 +84,21 @@ export default function HomePage() {
 
       {/* Categories */}
       <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-xl font-bold mb-6">카테고리</h2>
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
+        <h2 className="text-2xl font-bold mb-8">카테고리</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5 md:gap-6">
           {categories.map(cat => (
             <Link
               key={cat.slug}
               href={`/category/${cat.slug}`}
-              className="group text-center"
+              className="group"
             >
-              <div className="aspect-square bg-gray-100 rounded-2xl mb-2 flex items-center justify-center group-hover:bg-primary-50 transition-colors overflow-hidden">
-                <span className="text-3xl">
-                  {cat.slug === 'beauty' && '💄'}
-                  {cat.slug === 'fashion' && '👗'}
-                  {cat.slug === 'living' && '🏠'}
-                  {cat.slug === 'food' && '🍽️'}
-                  {cat.slug === 'tech' && '📱'}
-                </span>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-3 shadow-sm group-hover:shadow-md transition-shadow">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={cat.image} alt={cat.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <span className="absolute bottom-3 left-4 text-white font-bold text-lg drop-shadow-sm">{cat.name}</span>
               </div>
-              <span className="text-sm font-medium group-hover:text-primary-500 transition-colors">{cat.name}</span>
+              <p className="text-sm text-komma-gray px-1">{cat.description}</p>
             </Link>
           ))}
         </div>
