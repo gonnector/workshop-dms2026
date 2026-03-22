@@ -12,7 +12,7 @@ import { Page } from 'playwright';
 import {
   SessionConfig, PersonaRunner,
   SALE_PRODUCT_IDS, CHEAP_PRODUCT_IDS, PRODUCT_IDS,
-  pickRandom, pickRandomN, randInt,
+  pickRandom, randInt,
   navigateTo, initClarityTags, dismissPopupQuick,
   humanDelay, shortDelay, mediumDelay,
   gradualScroll, naturalClick, humanType,

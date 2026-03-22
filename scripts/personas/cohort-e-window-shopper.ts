@@ -13,7 +13,7 @@ import {
   PRODUCT_IDS, CATEGORIES,
   pickRandom, pickRandomN, randInt,
   navigateTo, initClarityTags, dismissPopup,
-  humanDelay, shortDelay, mediumDelay, longDelay,
+  shortDelay, mediumDelay, longDelay,
   gradualScroll, scrollToElement, naturalClick,
   CategorySlug,
 } from '../shared';

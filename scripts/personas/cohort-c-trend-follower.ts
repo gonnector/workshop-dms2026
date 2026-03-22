@@ -12,7 +12,7 @@ import {
   PRODUCT_IDS, NEW_PRODUCT_IDS, BEST_PRODUCT_IDS,
   pickRandom, pickRandomN, randInt,
   navigateTo, initClarityTags, dismissPopup,
-  humanDelay, shortDelay, mediumDelay,
+  shortDelay, mediumDelay,
   gradualScroll, naturalClick,
   CategorySlug,
 } from '../shared';

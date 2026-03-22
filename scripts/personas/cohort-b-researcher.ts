@@ -11,7 +11,7 @@
 import { Page } from 'playwright';
 import {
   SessionConfig, PersonaRunner,
-  PRODUCT_IDS, EXPENSIVE_PRODUCT_IDS, BEST_PRODUCT_IDS,
+  PRODUCT_IDS, BEST_PRODUCT_IDS,
   pickRandom, pickRandomN, randInt,
   navigateTo, initClarityTags, dismissPopup,
   humanDelay, shortDelay, mediumDelay, longDelay,
