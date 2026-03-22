@@ -16,7 +16,8 @@
       "Bash(HEADLESS=false TOTAL_SESSIONS=5 npx tsx simulate-traffic.ts)",
       "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 npx tsx simulate-traffic.ts)",
       "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 COHORT=cohort_A npx tsx simulate-traffic.ts)",
-      "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 COHORT=cohort_B npx tsx simulate-traffic.ts)"
+      "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 COHORT=cohort_B npx tsx simulate-traffic.ts)",
+      "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 COHORT=cohort_D npx tsx simulate-traffic.ts)"
     ]
   }
 }

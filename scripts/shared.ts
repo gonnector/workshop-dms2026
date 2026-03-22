@@ -111,6 +111,54 @@ export function logAction(action: string): void {
   console.log(`    → ${action}`);
 }
 
+/** Inject click/scroll visual indicator into the page */
+export async function injectClickIndicator(page: Page): Promise<void> {
+  await page.evaluate(`
+    (function() {
+      if (window.__clickIndicatorInjected) return;
+      window.__clickIndicatorInjected = true;
+
+      var style = document.createElement('style');
+      style.textContent = \`
+        .bot-cursor {
+          position: fixed; width: 20px; height: 20px; border-radius: 50%;
+          background: rgba(255, 50, 50, 0.7); border: 2px solid red;
+          pointer-events: none; z-index: 99999; transform: translate(-50%, -50%);
+          transition: left 0.15s ease, top 0.15s ease;
+        }
+        .bot-ripple {
+          position: fixed; width: 40px; height: 40px; border-radius: 50%;
+          border: 3px solid red; pointer-events: none; z-index: 99998;
+          transform: translate(-50%, -50%); animation: bot-ripple-anim 0.6s ease-out forwards;
+        }
+        @keyframes bot-ripple-anim {
+          0% { width: 10px; height: 10px; opacity: 1; }
+          100% { width: 60px; height: 60px; opacity: 0; }
+        }
+      \`;
+      document.head.appendChild(style);
+
+      var cursor = document.createElement('div');
+      cursor.className = 'bot-cursor';
+      document.body.appendChild(cursor);
+
+      document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      document.addEventListener('mousedown', function(e) {
+        var ripple = document.createElement('div');
+        ripple.className = 'bot-ripple';
+        ripple.style.left = e.clientX + 'px';
+        ripple.style.top = e.clientY + 'px';
+        document.body.appendChild(ripple);
+        setTimeout(function() { ripple.remove(); }, 700);
+      });
+    })()
+  `);
+}
+
 // ---------------------------------------------------------------------------
 // Page interaction helpers
 // ---------------------------------------------------------------------------
@@ -119,7 +167,8 @@ export function logAction(action: string): void {
 export async function navigateTo(page: Page, baseUrl: string, path: string): Promise<void> {
   const url = path.startsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`;
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await page.waitForTimeout(500); // let Clarity script load
+  await page.waitForTimeout(500);
+  await injectClickIndicator(page);
 }
 
 /** Scroll the page gradually to simulate human reading */
@@ -130,10 +179,10 @@ export async function gradualScroll(page: Page, scrollFraction = 1.0): Promise<v
 
   let currentScroll = 0;
   while (currentScroll < targetScroll) {
-    const step = randInt(150, 400);
+    const step = randInt(80, 250);
     currentScroll = Math.min(currentScroll + step, targetScroll);
     await page.evaluate(`window.scrollTo({ top: ${currentScroll}, behavior: 'smooth' })`);
-    await page.waitForTimeout(randInt(100, 300));
+    await page.waitForTimeout(randInt(400, 900));
   }
 }
 
