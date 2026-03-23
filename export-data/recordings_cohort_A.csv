@@ -1,0 +1,12 @@
+﻿"프로젝트 이름","Gonnector Sample Site - Ecommerce"
+"날짜 범위","03/21/2026 오전 12:00 - 03/23/2026 오후 11:59"
+
+
+"cohort","cohort_A"
+
+"총 세션 수","1"
+
+"cohort","cohort_A"
+
+"날짜","시간","세션 기간","항목 URL","종료 URL","참조:","명확성 사용자 ID","브라우저","디바이스","OS","국가","페이지 수","세션 클릭","북마크","레코딩 링크"
+"03/23/2026","오전 08:02","00:41","https://workshop.gonnector.com/ecommerce/category/food","https://workshop.gonnector.com/ecommerce/order-complete","","1qk31y8","Chrome","PC","Windows","Korea","6","8","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/1qk31y8/yku86q/?ss=1774220578000&sd=41"

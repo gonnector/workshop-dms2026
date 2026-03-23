@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOMMA STP Analysis Dashboard</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; background:#0f172a; color:#e2e8f0; min-height:100vh; }
+.header { padding:1.5rem 2rem; border-bottom:1px solid #1e293b; display:flex; justify-content:space-between; align-items:center; }
+.header h1 { font-size:1.4rem; font-weight:700; }
+.header h1 span { color:#ee7711; }
+.controls { display:flex; gap:0.5rem; flex-wrap:wrap; }
+.toggle { padding:0.4rem 1rem; border-radius:999px; border:2px solid; cursor:pointer; font-size:0.8rem; font-weight:600; transition:all 0.2s; background:transparent; }
+.toggle.active { color:#0f172a; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; padding:1.5rem 2rem; }
+.card { background:#1e293b; border-radius:12px; padding:1.5rem; }
+.card h2 { font-size:1rem; font-weight:600; margin-bottom:1rem; color:#94a3b8; }
+canvas { width:100%; }
+.funnel-container { display:flex; gap:2px; justify-content:center; align-items:flex-end; height:250px; padding:0 1rem; }
+.funnel-step { display:flex; gap:2px; align-items:flex-end; flex:1; padding:0 0.5rem; border-right:1px solid #1e293b; }
+.funnel-step:last-child { border-right:none; }
+.funnel-bar { flex:1; border-radius:3px 3px 0 0; transition:height 0.4s; min-height:2px; position:relative; max-width:30px; }
+.funnel-bar .val { position:absolute; top:-14px; left:50%; transform:translateX(-50%); font-size:0.55rem; font-weight:600; white-space:nowrap; }
+.funnel-steps { display:flex; justify-content:space-around; margin-top:0.5rem; padding:0 0.5rem; }
+.funnel-steps span { font-size:0.7rem; color:#64748b; }
+.metric-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0.8rem; }
+.metric-card { background:#0f172a; border-radius:8px; padding:1rem; text-align:center; transition:all 0.3s; border:1px solid #334155; }
+.metric-card.active { border-color:#ee7711; }
+.metric-card .name { font-size:0.7rem; color:#94a3b8; margin-bottom:0.3rem; }
+.metric-card .cohort-name { font-size:0.65rem; color:#64748b; margin-bottom:0.5rem; }
+.metric-card .value { font-size:1.6rem; font-weight:700; }
+.metric-card .sub { font-size:0.65rem; color:#64748b; margin-top:0.2rem; }
+.legend { display:flex; gap:1rem; justify-content:center; margin-top:1rem; flex-wrap:wrap; }
+.legend-item { display:flex; align-items:center; gap:0.3rem; font-size:0.7rem; color:#94a3b8; }
+.legend-dot { width:10px; height:10px; border-radius:50%; }
+.insight-box { background:#0f172a; border-left:3px solid #ee7711; padding:1rem; border-radius:0 8px 8px 0; margin-top:1rem; font-size:0.8rem; line-height:1.6; color:#cbd5e1; }
+@media(max-width:900px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>KOMMA</span> STP Analysis Dashboard</h1>
+  <div class="controls" id="controls"></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>코호트별 행동 레이더 차트</h2>
+    <canvas id="radar" height="300"></canvas>
+    <div class="legend" id="radarLegend"></div>
+  </div>
+  <div class="card">
+    <h2>세그먼트 가치 매트릭스 (크기 × 전환율 × 객단가)</h2>
+    <canvas id="matrix" height="300"></canvas>
+    <div class="insight-box" id="matrixInsight"></div>
+  </div>
+  <div class="card" style="grid-column:1/-1;">
+    <h2>코호트별 구매 퍼널 비교</h2>
+    <div class="funnel-container" id="funnel"></div>
+    <div class="funnel-steps">
+      <span>홈 방문</span><span>상품 조회</span><span>장바구니</span><span>체크아웃</span><span>구매 완료</span>
+    </div>
+  </div>
+  <div class="card" style="grid-column:1/-1;">
+    <h2>코호트별 핵심 지표</h2>
+    <div class="metric-grid" id="metrics"></div>
+  </div>
+</div>
+
+<script>
+const COHORTS = [
+  { id:'A', name:'cohort_A', label:'가성비 헌터', color:'#f59e0b',
+    duration:45, pages:3, conversion:85, wishlist:10, review:5,
+    size:25, cartValue:28000, funnel:[100,70,65,60,85] },
+  { id:'B', name:'cohort_B', label:'신중한 연구자', color:'#3b82f6',
+    duration:300, pages:8, conversion:22, wishlist:80, review:90,
+    size:20, cartValue:95000, funnel:[100,90,40,25,22] },
+  { id:'C', name:'cohort_C', label:'트렌드 팔로워', color:'#10b981',
+    duration:90, pages:5, conversion:40, wishlist:45, review:15,
+    size:20, cartValue:55000, funnel:[100,75,50,45,40] },
+  { id:'D', name:'cohort_D', label:'충성 고객', color:'#a855f7',
+    duration:30, pages:2, conversion:90, wishlist:5, review:3,
+    size:15, cartValue:120000, funnel:[100,95,92,91,90] },
+  { id:'E', name:'cohort_E', label:'윈도우 쇼퍼', color:'#ef4444',
+    duration:180, pages:7, conversion:5, wishlist:85, review:30,
+    size:20, cartValue:0, funnel:[100,85,45,10,5] },
+];
+
+const state = { visible: { A:true, B:true, C:true, D:true, E:true } };
+
+// --- Controls ---
+const controlsEl = document.getElementById('controls');
+COHORTS.forEach(c => {
+  const btn = document.createElement('button');
+  btn.className = 'toggle active';
+  btn.style.borderColor = c.color;
+  btn.style.backgroundColor = c.color;
+  btn.style.color = '#0f172a';
+  btn.textContent = c.id + ' ' + c.label;
+  btn.onclick = () => {
+    state.visible[c.id] = !state.visible[c.id];
+    btn.classList.toggle('active');
+    btn.style.backgroundColor = state.visible[c.id] ? c.color : 'transparent';
+    btn.style.color = state.visible[c.id] ? '#0f172a' : c.color;
+    updateAll();
+  };
+  controlsEl.appendChild(btn);
+});
+
+function getVisible() { return COHORTS.filter(c => state.visible[c.id]); }
+
+// --- Radar Chart ---
+function drawRadar() {
+  const canvas = document.getElementById('radar');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 300 * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 300;
+  ctx.clearRect(0,0,W,H);
+
+  const cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 40;
+  const axes = ['체류시간','페이지뷰','전환율','찜하기','리뷰'];
+  const N = axes.length;
+
+  // Grid
+  for (let ring = 1; ring <= 4; ring++) {
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const a = (Math.PI*2/N)*i - Math.PI/2;
+      const r = R * ring/4;
+      const x = cx + r*Math.cos(a), y = cy + r*Math.sin(a);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 0.5; ctx.stroke();
+  }
+
+  // Axis lines + labels
+  for (let i = 0; i < N; i++) {
+    const a = (Math.PI*2/N)*i - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + R*Math.cos(a), cy + R*Math.sin(a));
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 0.5; ctx.stroke();
+
+    const lx = cx + (R+20)*Math.cos(a), ly = cy + (R+20)*Math.sin(a);
+    ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(axes[i], lx, ly);
+  }
+
+  // Data
+  getVisible().forEach(c => {
+    const vals = [c.duration/300, c.pages/10, c.conversion/100, c.wishlist/100, c.review/100];
+    ctx.beginPath();
+    vals.forEach((v, i) => {
+      const a = (Math.PI*2/N)*i - Math.PI/2;
+      const x = cx + R*v*Math.cos(a), y = cy + R*v*Math.sin(a);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = c.color + '30'; ctx.fill();
+    ctx.strokeStyle = c.color; ctx.lineWidth = 2; ctx.stroke();
+
+    // Dots
+    vals.forEach((v, i) => {
+      const a = (Math.PI*2/N)*i - Math.PI/2;
+      ctx.beginPath();
+      ctx.arc(cx + R*v*Math.cos(a), cy + R*v*Math.sin(a), 3, 0, Math.PI*2);
+      ctx.fillStyle = c.color; ctx.fill();
+    });
+  });
+
+  // Legend
+  const legendEl = document.getElementById('radarLegend');
+  legendEl.innerHTML = getVisible().map(c =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div>${c.label}</div>`
+  ).join('');
+}
+
+// --- BCG Matrix ---
+function drawMatrix() {
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 300 * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 300;
+  ctx.clearRect(0,0,W,H);
+
+  const pad = {l:50, r:30, t:20, b:40};
+  const gw = W-pad.l-pad.r, gh = H-pad.t-pad.b;
+
+  // Axes
+  ctx.strokeStyle = '#334155'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, H-pad.b); ctx.lineTo(W-pad.r, H-pad.b); ctx.stroke();
+
+  ctx.fillStyle = '#64748b'; ctx.font = '10px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('세그먼트 크기 (%)', W/2, H-5);
+  ctx.save(); ctx.translate(12, H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('전환율 (%)', 0, 0); ctx.restore();
+
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + gh * (1 - i/4);
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W-pad.r, y);
+    ctx.strokeStyle = '#1e293b'; ctx.stroke();
+    ctx.fillStyle = '#64748b'; ctx.textAlign = 'right'; ctx.fillText((i*25)+'%', pad.l-8, y+3);
+  }
+  for (let i = 0; i <= 4; i++) {
+    const x = pad.l + gw * i/4;
+    ctx.fillStyle = '#64748b'; ctx.textAlign = 'center'; ctx.fillText((i*10)+'%', x, H-pad.b+15);
+  }
+
+  // Quadrant labels
+  ctx.fillStyle = '#1e293b'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Cash Cow', pad.l + gw*0.75, pad.t + gh*0.15);
+  ctx.fillText('Star', pad.l + gw*0.25, pad.t + gh*0.15);
+  ctx.fillText('Dog', pad.l + gw*0.75, pad.t + gh*0.85);
+  ctx.fillText('Question Mark', pad.l + gw*0.25, pad.t + gh*0.85);
+
+  // Midlines
+  ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(pad.l + gw/2, pad.t); ctx.lineTo(pad.l + gw/2, H-pad.b); ctx.strokeStyle='#334155'; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t + gh/2); ctx.lineTo(W-pad.r, pad.t + gh/2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Bubbles
+  getVisible().forEach(c => {
+    const x = pad.l + (c.size/40) * gw;
+    const y = pad.t + (1 - c.conversion/100) * gh;
+    const r = Math.max(8, c.cartValue/5000);
+
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+    ctx.fillStyle = c.color + '60'; ctx.fill();
+    ctx.strokeStyle = c.color; ctx.lineWidth = 2; ctx.stroke();
+
+    ctx.fillStyle = '#e2e8f0'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(c.id, x, y + 4);
+    ctx.fillStyle = c.color; ctx.font = '9px sans-serif';
+    ctx.fillText(c.label, x, y + r + 14);
+  });
+
+  // Insight
+  const vis = getVisible();
+  const topConv = vis.reduce((a,b) => a.conversion > b.conversion ? a : b, vis[0]);
+  const topValue = vis.reduce((a,b) => a.cartValue > b.cartValue ? a : b, vis[0]);
+  document.getElementById('matrixInsight').innerHTML =
+    `<strong>인사이트:</strong> 전환율 최고는 <span style="color:${topConv.color}">${topConv.label}(${topConv.conversion}%)</span>, ` +
+    `객단가 최고는 <span style="color:${topValue.color}">${topValue.label}(${(topValue.cartValue/10000).toFixed(1)}만원)</span>. ` +
+    `ROI 관점에서 타겟 우선순위를 판단해보세요.`;
+}
+
+// --- Funnel ---
+function drawFunnel() {
+  const el = document.getElementById('funnel');
+  const vis = getVisible();
+  const steps = ['홈','상품','장바구니','체크아웃','구매'];
+  const maxH = 200;
+
+  el.innerHTML = steps.map((step, si) => `
+    <div class="funnel-step">
+      ${vis.map(c => `
+        <div class="funnel-bar" style="background:${c.color};height:${c.funnel[si] / 100 * maxH}px;">
+          <div class="val" style="color:${c.color}">${c.funnel[si]}%</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+// --- Metrics ---
+function drawMetrics() {
+  const el = document.getElementById('metrics');
+  el.innerHTML = getVisible().map(c => `
+    <div class="metric-card active" style="border-color:${c.color}40">
+      <div class="name" style="color:${c.color}">${c.id}</div>
+      <div class="cohort-name">${c.label}</div>
+      <div class="value" style="color:${c.color}">${c.conversion}%</div>
+      <div class="sub">전환율</div>
+      <div style="margin-top:0.8rem;font-size:0.7rem;color:#94a3b8;text-align:left;line-height:1.8;">
+        체류: ${c.duration}초<br>
+        페이지: ${c.pages}p<br>
+        객단가: ${c.cartValue > 0 ? (c.cartValue/10000).toFixed(1)+'만' : '-'}<br>
+        비율: ${c.size}%
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateAll() {
+  drawRadar();
+  drawMatrix();
+  drawFunnel();
+  drawMetrics();
+}
+
+window.addEventListener('resize', updateAll);
+updateAll();
+</script>
+</body>
+</html>

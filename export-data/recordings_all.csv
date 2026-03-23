@@ -1,0 +1,13 @@
+﻿"프로젝트 이름","Gonnector Sample Site - Ecommerce"
+"날짜 범위","03/21/2026 오전 12:00 - 03/23/2026 오후 11:59"
+
+
+"총 세션 수","6"
+
+"날짜","시간","세션 기간","항목 URL","종료 URL","참조:","명확성 사용자 ID","브라우저","디바이스","OS","국가","페이지 수","세션 클릭","북마크","레코딩 링크"
+"03/23/2026","오전 08:02","00:41","https://workshop.gonnector.com/ecommerce/category/food","https://workshop.gonnector.com/ecommerce/order-complete","","1qk31y8","Chrome","PC","Windows","Korea","6","8","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/1qk31y8/yku86q/?ss=1774220578000&sd=41"
+"03/23/2026","오전 08:00","01:47","https://workshop.gonnector.com/ecommerce","https://workshop.gonnector.com/ecommerce/order-complete","","1qi6y1t","Chrome","PC","Linux","Korea","11","10","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/1qi6y1t/mvdnqi/?ss=1774220449000&sd=107"
+"03/23/2026","오전 07:04","01:52","https://workshop.gonnector.com/ecommerce","https://workshop.gonnector.com/ecommerce/order-complete","","1th4we8","Chrome","PC","Windows","Korea","10","11","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/1th4we8/1wolg2d/?ss=1774217054000&sd=112"
+"03/23/2026","오전 06:31","00:15","https://workshop.gonnector.com/ecommerce/product/b3","https://workshop.gonnector.com/ecommerce/order-complete","","1u6vtl7","Chrome","PC","MacOS","Korea","4","3","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/1u6vtl7/mt0d64/?ss=1774215092000&sd=15"
+"03/23/2026","오전 06:05","22:05","https://workshop.gonnector.com/ecommerce?mode=test","https://workshop.gonnector.com/ecommerce/category/beauty","","11n6us3","Chrome","PC","Windows","Korea","8","41","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/11n6us3/3udib9/?ss=1774213502000&sd=1325"
+"03/23/2026","오전 05:02","43:33","https://workshop.gonnector.com/ecommerce?mode=test","https://workshop.gonnector.com/ecommerce/product/b4","","gwcz7m","Chrome","PC","Windows","Korea","19","33","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/gwcz7m/1yv3ivi/?ss=1774209744000&sd=2613"

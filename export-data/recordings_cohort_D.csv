@@ -1,0 +1,12 @@
+﻿"프로젝트 이름","Gonnector Sample Site - Ecommerce"
+"날짜 범위","03/21/2026 오전 12:00 - 03/23/2026 오후 11:59"
+
+
+"cohort","cohort_D"
+
+"총 세션 수","1"
+
+"cohort","cohort_D"
+
+"날짜","시간","세션 기간","항목 URL","종료 URL","참조:","명확성 사용자 ID","브라우저","디바이스","OS","국가","페이지 수","세션 클릭","북마크","레코딩 링크"
+"03/23/2026","오전 06:31","00:15","https://workshop.gonnector.com/ecommerce/product/b3","https://workshop.gonnector.com/ecommerce/order-complete","","1u6vtl7","Chrome","PC","MacOS","Korea","4","3","FALSE","https://clarity.microsoft.com/player/vzqk2qmx8p/1u6vtl7/mt0d64/?ss=1774215092000&sd=15"
