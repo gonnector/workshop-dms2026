@@ -53,6 +53,11 @@
     .reveal table th { background: #f3f4f6; font-weight: 700; padding: 0.6em; }
     .reveal table td { padding: 0.6em; border-bottom: 1px solid #e5e7eb; }
     .reveal .fragment.fade-up { transform: translateY(20px); }
+    /* Slide number styling */
+    .reveal .slide-number { font-size: 18px; padding: 8px 14px; background: rgba(0,0,0,0.15); border-radius: 8px; right: 20px; bottom: 20px; }
+    /* Navigation arrows — subtle on edges */
+    .reveal .controls { color: rgba(107, 33, 168, 0.4); }
+    .reveal .controls:hover { color: rgba(107, 33, 168, 0.7); }
   </style>
 </head>
 <body>
@@ -970,8 +975,10 @@
     width: 1920,
     height: 1080,
     margin: 0.05,
-    transition: 'fade',
-    transitionSpeed: 'fast',
+    transition: 'slide',
+    transitionSpeed: 'default',
+    controls: true,
+    controlsLayout: 'edges',
     controlsTutorial: false,
   });
 </script>
