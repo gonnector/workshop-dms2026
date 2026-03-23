@@ -724,23 +724,55 @@
 </section>
 
 <section>
-  <h2>FigJam 인사이트 등록</h2>
+  <h2>실습 플로우</h2>
+  <div style="display:flex; align-items:center; justify-content:center; gap:0.3em; margin:1em 0;">
+    <div class="box" style="text-align:center; flex:1; border-top:3px solid #ee7711;">
+      <div style="font-size:1.5em;">1</div>
+      <strong>Clarity 탐색</strong>
+      <p class="small">코호트 필터 → 히트맵<br/>리코딩 관찰 → 가설</p>
+    </div>
+    <div style="font-size:1.5em; color:#d1d5db;">→</div>
+    <div class="box" style="text-align:center; flex:1; border-top:3px solid #3b82f6;">
+      <div style="font-size:1.5em;">2</div>
+      <strong>Claude Code 분석</strong>
+      <p class="small">CSV 분석 → 시각화<br/>데이터로 가설 검증</p>
+    </div>
+    <div style="font-size:1.5em; color:#d1d5db;">→</div>
+    <div class="box" style="text-align:center; flex:1; border-top:3px solid #10b981;">
+      <div style="font-size:1.5em;">3</div>
+      <strong>FigJam 등록</strong>
+      <p class="small">코호트별 결론<br/>포스트잇 한 줄</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>FigJam — 코호트 분석 보드</h2>
   <div class="box box-accent">
-    <p>분석 결과를 FigJam 보드에 포스트잇으로 붙여주세요</p>
-    <div class="grid-3" style="margin-top:1em;">
-      <div style="text-align:center;">
-        <span class="tag tag-orange" style="font-size:1em;">S</span>
-        <p class="small">발견한 세그먼트 특성</p>
+    <p>각 코호트에 포스트잇 2개를 붙여주세요</p>
+    <div style="display:flex; gap:0.8em; margin-top:1em; justify-content:center; flex-wrap:wrap;">
+      <div class="box" style="flex:1; min-width:130px; text-align:center; border-top:3px solid #f59e0b;">
+        <strong>cohort_A</strong>
+        <p class="small">특성:<br/>근거:</p>
       </div>
-      <div style="text-align:center;">
-        <span class="tag tag-blue" style="font-size:1em;">T</span>
-        <p class="small">타겟 우선순위 판단</p>
+      <div class="box" style="flex:1; min-width:130px; text-align:center; border-top:3px solid #3b82f6;">
+        <strong>cohort_B</strong>
+        <p class="small">특성:<br/>근거:</p>
       </div>
-      <div style="text-align:center;">
-        <span class="tag tag-green" style="font-size:1em;">P</span>
-        <p class="small">마케팅 전략 제안</p>
+      <div class="box" style="flex:1; min-width:130px; text-align:center; border-top:3px solid #10b981;">
+        <strong>cohort_C</strong>
+        <p class="small">특성:<br/>근거:</p>
+      </div>
+      <div class="box" style="flex:1; min-width:130px; text-align:center; border-top:3px solid #a855f7;">
+        <strong>cohort_D</strong>
+        <p class="small">특성:<br/>근거:</p>
+      </div>
+      <div class="box" style="flex:1; min-width:130px; text-align:center; border-top:3px solid #ef4444;">
+        <strong>cohort_E</strong>
+        <p class="small">특성:<br/>근거:</p>
       </div>
     </div>
+    <p class="small" style="margin-top:0.8em;">예시 — <strong>특성:</strong> "할인에 민감한 가성비 소비자" / <strong>근거:</strong> "세일 직행, 쿠폰 사용, 체류 짧음"</p>
   </div>
   <div style="margin-top:1em; text-align:center;">
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwww.figma.com%2Fboard%2FyzfFJTmxLXWVHl2fieevrV%2FDMS2026-Gonnector-Workshop" alt="FigJam QR" style="width:120px; height:120px;" />
