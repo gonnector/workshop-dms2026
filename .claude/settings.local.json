@@ -19,7 +19,8 @@
       "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 COHORT=cohort_B npx tsx simulate-traffic.ts)",
       "Bash(HEADLESS=false TOTAL_SESSIONS=1 CONCURRENCY=1 COHORT=cohort_D npx tsx simulate-traffic.ts)",
       "mcp__claude_ai_Figma__generate_diagram",
-      "Bash(start:*)"
+      "Bash(start:*)",
+      "Bash(xxd synthetic_sessions.csv)"
     ]
   }
 }
