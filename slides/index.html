@@ -60,6 +60,46 @@
     /* Navigation arrows — subtle on edges */
     .reveal .controls { color: rgba(107, 33, 168, 0.4); }
     .reveal .controls:hover { color: rgba(107, 33, 168, 0.7); }
+
+    /* Content slide — fixed title area at top 20% */
+    .reveal .slides section.content-slide {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+      padding-bottom: 60px !important;
+      box-sizing: border-box;
+    }
+    .reveal .content-slide .slide-title {
+      height: 216px;
+      min-height: 216px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0 10%;
+      box-sizing: border-box;
+    }
+    .reveal .content-slide .slide-title h2 {
+      margin: 0 !important;
+    }
+    .reveal .content-slide .slide-content {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 10%;
+      box-sizing: border-box;
+    }
+    /* Cover & divider slides — centered */
+    .reveal .slides section.centered-slide {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      height: 100% !important;
+    }
   </style>
 </head>
 <body>
@@ -69,7 +109,7 @@
 <!-- ============================================================ -->
 <!-- TITLE -->
 <!-- ============================================================ -->
-<section data-background-color="#1a1a1a">
+<section class="centered-slide" data-background-color="#1a1a1a">
   <h2 style="color:#8b5cf6; font-size:0.9em; font-weight:500; margin-bottom:0.3em;">DMS 2026 Workshop</h2>
   <h1 style="color:white; font-size:1.8em; line-height:1.3;">고객 행동 데이터로<br/>STP 인사이트 도출하기</h1>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em; margin-top:1.5em;">
@@ -83,8 +123,11 @@
 <!-- ============================================================ -->
 <!-- AGENDA -->
 <!-- ============================================================ -->
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>오늘의 여정</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2" style="gap:0.8em 4em; font-size:0.75em; max-width:1600px; margin:0 auto;">
     <div>
       <div class="box" style="margin-bottom:0.4em; padding:0.7em 1em;"><span class="number-circle">1</span> <strong>아이스 브레이킹</strong> <span class="small">15분</span></div>
@@ -98,19 +141,23 @@
       <div class="box" style="padding:0.7em 1em;"><span class="number-circle">6</span> <strong>피드백 & Q&A</strong> <span class="small">20분</span></div>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- ============================================================ -->
 <!-- PART 1: ICE BREAKING -->
 <!-- ============================================================ -->
-<section data-background-color="#5b21b6">
+<section class="centered-slide" data-background-color="#5b21b6">
   <h2 style="color:white; font-size:1.4em;">Part 1</h2>
   <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">아이스 브레이킹</p>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">15분</p>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>아이스 브레이킹</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-3" style="margin-top:1em;">
     <div class="box" style="text-align:center;">
       <div class="emoji-big">🎯</div>
@@ -128,35 +175,43 @@
       <p class="small">Claude? ChatGPT? 코딩형 AI?</p>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- ============================================================ -->
 <!-- PART 2: CUSTOMER JOURNEY & STP -->
 <!-- ============================================================ -->
-<section data-background-color="#5b21b6">
+<section class="centered-slide" data-background-color="#5b21b6">
   <h2 style="color:white; font-size:1.4em;">Part 2</h2>
   <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">고객 여정 & STP 방법론</p>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">30분</p>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>이커머스 고객 여정</h2>
-  <div style="display:flex; align-items:center; justify-content:center; gap:0.2em; margin:2em auto; font-size:0.8em; max-width:1700px;">
-    <div class="box" style="text-align:center; flex:1; padding:0.6em;"><div style="font-size:1.3em;">👀</div><strong>인지</strong><br/><span class="small">방문, 검색</span></div>
-    <div style="font-size:1.2em; color:#d1d5db;">→</div>
-    <div class="box" style="text-align:center; flex:1; padding:0.6em;"><div style="font-size:1.3em;">🔍</div><strong>탐색</strong><br/><span class="small">조회/비교</span></div>
-    <div style="font-size:1.2em; color:#d1d5db;">→</div>
-    <div class="box" style="text-align:center; flex:1; padding:0.6em;"><div style="font-size:1.3em;">💝</div><strong>고려</strong><br/><span class="small">리뷰, 찜</span></div>
-    <div style="font-size:1.2em; color:#d1d5db;">→</div>
-    <div class="box" style="text-align:center; flex:1; padding:0.6em;"><div style="font-size:1.3em;">🛒</div><strong>결정</strong><br/><span class="small">장바구니</span></div>
-    <div style="font-size:1.2em; color:#d1d5db;">→</div>
-    <div class="box" style="text-align:center; flex:1; padding:0.6em;"><div style="font-size:1.3em;">💳</div><strong>구매</strong><br/><span class="small">결제 완료</span></div>
   </div>
-  <p class="fragment">각 단계에서 <span class="accent">행동 데이터</span>가 발생합니다</p>
+  <div class="slide-content">
+  <div style="display:flex; align-items:center; justify-content:center; gap:0.4em; width:100%;">
+    <div class="box" style="text-align:center; flex:1; padding:1em 0.8em;"><div style="font-size:1.6em;">👀</div><strong>인지</strong><br/><span class="small" style="white-space:nowrap;">방문, 검색</span></div>
+    <div style="font-size:1.4em; color:#d1d5db; flex-shrink:0;">→</div>
+    <div class="box" style="text-align:center; flex:1; padding:1em 0.8em;"><div style="font-size:1.6em;">🔍</div><strong>탐색</strong><br/><span class="small" style="white-space:nowrap;">조회/비교</span></div>
+    <div style="font-size:1.4em; color:#d1d5db; flex-shrink:0;">→</div>
+    <div class="box" style="text-align:center; flex:1; padding:1em 0.8em;"><div style="font-size:1.6em;">💝</div><strong>고려</strong><br/><span class="small" style="white-space:nowrap;">리뷰, 찜</span></div>
+    <div style="font-size:1.4em; color:#d1d5db; flex-shrink:0;">→</div>
+    <div class="box" style="text-align:center; flex:1; padding:1em 0.8em;"><div style="font-size:1.6em;">🛒</div><strong>결정</strong><br/><span class="small" style="white-space:nowrap;">장바구니</span></div>
+    <div style="font-size:1.4em; color:#d1d5db; flex-shrink:0;">→</div>
+    <div class="box" style="text-align:center; flex:1; padding:1em 0.8em;"><div style="font-size:1.6em;">💳</div><strong>구매</strong><br/><span class="small" style="white-space:nowrap;">결제 완료</span></div>
+  </div>
+  <p class="fragment" style="margin-top:1.5em;">각 단계에서 <span class="accent">행동 데이터</span>가 발생합니다</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>행동 데이터란?</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-4" style="max-width:1700px; margin:0 auto;">
     <div class="box box-accent" style="padding:0.8em;">
       <h3>클릭</h3>
@@ -176,10 +231,14 @@
     </div>
   </div>
   <p class="fragment" style="margin-top:1em;">이 데이터 속에 <span class="highlight">고객의 의도와 니즈</span>가 숨어 있습니다</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>STP — 마케팅의 핵심</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-3" style="margin-top:1em;">
     <div class="box" style="text-align:center; border-top: 4px solid #6d28d9;">
       <h3>S</h3>
@@ -197,11 +256,15 @@
       <p class="small">타겟에게 최적의<br/>메시지와 전략 수립</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>행동 데이터 × STP</h2>
-  <table>
+  </div>
+  <div class="slide-content">
+  <table style="font-size:0.95em;">
     <tr><th>STP 단계</th><th>전통적 방법</th><th>행동 데이터 기반</th></tr>
     <tr><td><strong>S</strong>egmentation</td><td>설문, 인구통계</td><td>클릭/스크롤/체류 패턴 클러스터링</td></tr>
     <tr><td><strong>T</strong>argeting</td><td>직관, 경험</td><td>전환율 × 객단가 × 세그먼트 크기</td></tr>
@@ -210,19 +273,23 @@
   <p class="fragment" style="margin-top:1em;">
     <span class="accent">오늘 실습</span>: 실제 행동 데이터로 STP 분석을 수행합니다
   </p>
+  </div>
 </section>
 
 <!-- ============================================================ -->
 <!-- PART 3: CLARITY & CLAUDE CODE -->
 <!-- ============================================================ -->
-<section data-background-color="#5b21b6">
+<section class="centered-slide" data-background-color="#5b21b6">
   <h2 style="color:white; font-size:1.4em;">Part 3</h2>
   <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">Clarity & Claude Code</p>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">30분</p>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Microsoft Clarity</h2>
+  </div>
+  <div class="slide-content">
   <p style="font-size:1.1em; margin-bottom:0.5em;"><span class="highlight">완전 무료</span>이면서 <span class="highlight">매우 강력한</span> 행동 분석 도구</p>
   <div class="grid-2" style="margin-top:1em;">
     <div class="box" style="text-align:center;">
@@ -246,10 +313,14 @@
       <p class="small">자연어로 데이터 질의<br/>세션 AI 요약</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Clarity 핵심 기능</h2>
+  </div>
+  <div class="slide-content">
   <div style="text-align:left;">
     <div class="box" style="margin-bottom:0.5em;">
       <strong>Smart Events (자동 감지)</strong><br/>
@@ -273,10 +344,14 @@
       <span class="small">디바이스, 브라우저, 국가, 커스텀 태그, 퍼널 단계 등으로 자유롭게 필터링</span>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Clarity 대시보드 — 한눈에 보는 사이트 건강</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-3">
     <div class="box" style="text-align:center;">
       <h3>트래픽 개요</h3>
@@ -301,10 +376,14 @@
       <p class="small">일별/주별 지표 추이<br/>이상 징후 즉시 발견</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>히트맵 — 5가지 타입</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-3" style="margin-top:0.8em;">
     <div class="box" style="text-align:center; border-top:3px solid #ef4444;">
       <h3>클릭 맵</h3>
@@ -329,10 +408,14 @@
       <p class="small">두 세그먼트를 <strong>나란히 비교</strong><br/>모바일 vs 데스크톱<br/>코호트 A vs B</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>세션 리코딩 — 고객의 눈으로</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2">
     <div>
       <div class="box" style="margin-bottom:0.5em;">
@@ -373,10 +456,14 @@
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>퍼널 분석 — 이탈 지점 발견</h2>
+  </div>
+  <div class="slide-content">
   <div class="box box-accent" style="margin-bottom:1em;">
     <div style="display:flex; align-items:center; justify-content:center; gap:0.3em; font-size:0.9em;">
       <div style="text-align:center; flex:1;"><strong>홈 방문</strong><br/><span class="small">100%</span></div>
@@ -400,10 +487,14 @@
       <p class="small">같은 퍼널에 다른 필터 적용<br/>"cohort_A는 어디서 이탈하고,<br/>cohort_D는 어디까지 가는가?"</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>실습을 위한 세그먼트 설정</h2>
+  </div>
+  <div class="slide-content">
   <p>필터 조합을 저장해두면 분석 시 원클릭으로 전환할 수 있습니다</p>
   <div style="text-align:left; margin-top:1em;">
     <div class="box" style="margin-bottom:0.5em;">
@@ -439,10 +530,14 @@
       </p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>세그먼트 저장 방법</h2>
+  </div>
+  <div class="slide-content">
   <div style="text-align:left;">
     <div class="box" style="margin-bottom:0.5em;">
       <p><span class="number-circle">1</span> 상단 <strong>"필터"</strong> 클릭</p>
@@ -458,10 +553,14 @@
     </div>
   </div>
   <p class="fragment small" style="margin-top:1em;">저장된 세그먼트는 대시보드 · 히트맵 · 리코딩 · 퍼널 <strong>전체에 동시 적용</strong>됩니다</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>실무 팁: 태그 관리</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2">
     <div class="box" style="border-top:4px solid #6d28d9;">
       <h3>오늘 워크숍</h3>
@@ -483,10 +582,14 @@
     </div>
   </div>
   <p class="small" style="margin-top:1em;">Clarity는 GTM 템플릿을 공식 지원합니다</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>실무 팁: Clarity 제한사항 & 해결법</h2>
+  </div>
+  <div class="slide-content">
   <div style="text-align:left;">
     <div class="box" style="margin-bottom:0.5em;">
       <h3>드롭다운(&lt;select&gt;) 텍스트 미캡처</h3>
@@ -505,10 +608,14 @@
     </div>
   </div>
   <p class="small" style="margin-top:0.8em;">도구의 제한을 아는 것이 도구를 제대로 활용하는 첫걸음입니다</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Clarity Copilot</h2>
+  </div>
+  <div class="slide-content">
   <p>내장 AI — <span class="accent">무료, 일일 제한 없음</span></p>
   <div class="grid-2" style="margin-top:1em;">
     <div class="box">
@@ -528,10 +635,14 @@
       <p class="small">히트맵 데이터를 AI가<br/>자동으로 해석</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Claude Code</h2>
+  </div>
+  <div class="slide-content">
   <p>데이터 분석을 위한 <span class="accent">AI 에이전트</span></p>
   <div class="box box-accent" style="margin:1em 0;">
     <p>CLI(터미널)에서 동작하는 AI 에이전트로, 데이터 파일을 직접 읽고, 분석 코드를 작성하고, 시각화를 생성하고, 인사이트를 도출합니다.</p>
@@ -550,10 +661,14 @@
       <span class="small">STP 리포트 자동 생성</span>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Copilot vs Claude Code</h2>
+  </div>
+  <div class="slide-content">
   <table>
     <tr><th></th><th>Clarity Copilot</th><th>Claude Code</th></tr>
     <tr><td><strong>데이터 범위</strong></td><td>Clarity 내부 데이터</td><td>Export된 CSV + 외부 데이터</td></tr>
@@ -565,19 +680,24 @@
   <p class="fragment" style="margin-top:0.8em;">
     <span class="accent">둘 다 씁니다!</span> Copilot으로 빠르게 탐색 → Claude Code로 심층 분석
   </p>
+  </div>
 </section>
 
-<section data-background-color="#1e293b">
+<section class="content-slide" data-background-color="#1e293b">
+  <div class="slide-title">
   <h2 style="color:white;">Claude Code가 만드는 분석 대시보드</h2>
+  </div>
+  <div class="slide-content">
   <p style="color:#94a3b8; font-size:0.8em; margin-bottom:1em;">CSV 데이터 → 프롬프트 한 줄 → 인터랙티브 대시보드 자동 생성</p>
   <img src="dashboard-screenshot.png" alt="STP Dashboard" style="max-width:90%; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.5);" />
   <p style="color:#64748b; font-size:0.65em; margin-top:0.8em;">레이더 차트 · BCG 매트릭스 · 퍼널 비교 · 코호트별 핵심 지표</p>
+  </div>
 </section>
 
 <!-- ============================================================ -->
 <!-- BREAK -->
 <!-- ============================================================ -->
-<section data-background-color="#f3f4f6">
+<section class="centered-slide" data-background-color="#f3f4f6">
   <div style="font-size:3em;">☕</div>
   <h2>휴식 시간 <span class="small">15분</span></h2>
   <div style="display:flex; justify-content:center; gap:2em; margin-top:1em;">
@@ -597,14 +717,17 @@
 <!-- ============================================================ -->
 <!-- PART 4: SAMPLE SITE & DATA -->
 <!-- ============================================================ -->
-<section data-background-color="#5b21b6">
+<section class="centered-slide" data-background-color="#5b21b6">
   <h2 style="color:white; font-size:1.4em;">Part 4</h2>
   <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">샘플 사이트 & 데이터</p>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">10분</p>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>KOMMA — 샘플 이커머스 사이트</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2">
     <div>
       <div class="box">
@@ -632,10 +755,14 @@
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>시뮬레이션 데이터</h2>
+  </div>
+  <div class="slide-content">
   <p>5개 코호트의 봇이 사이트를 탐색하며 생성한 <span class="accent">~1,000 세션</span></p>
   <div class="grid-2" style="margin-top:1em;">
     <div class="box">
@@ -658,19 +785,23 @@
       </ol>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- ============================================================ -->
 <!-- PART 5: HANDS-ON -->
 <!-- ============================================================ -->
-<section data-background-color="#5b21b6">
+<section class="centered-slide" data-background-color="#5b21b6">
   <h2 style="color:white; font-size:1.4em;">Part 5</h2>
   <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">실습: 인사이트 도출</p>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">50분</p>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>실습 구조</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2">
     <div class="box" style="border-top:4px solid #6d28d9;">
       <h3>Round 1 — Clarity 탐색</h3>
@@ -694,10 +825,14 @@
     </div>
   </div>
   <p class="fragment small" style="margin-top:0.8em;">FigJam에 인사이트를 등록해주세요</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Round 1 — Clarity 탐색 가이드</h2>
+  </div>
+  <div class="slide-content">
   <div style="text-align:left;">
     <div class="box" style="margin-bottom:0.5em;">
       <strong>Step 1: 대시보드</strong><br/>
@@ -717,10 +852,14 @@
       <span class="small">코호트별 2~3개 세션 리코딩 관찰 → 실제 행동 패턴 체감</span>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Round 2 — Claude Code 프롬프트</h2>
+  </div>
+  <div class="slide-content">
   <div class="prompt-box" style="margin-bottom:0.8em;">
     <span style="color:#94a3b8;">Level 1 — 기본 탐색</span><br/>
     "이 CSV 파일의 구조를 분석하고 코호트별 기술 통계를 비교해줘"
@@ -738,10 +877,14 @@
     "STP 관점에서 세그먼트별 마케팅 액션 플랜을 도출해줘"
   </div>
   <p class="small" style="margin-top:0.5em;">이 프롬프트를 기반으로 자유롭게 변형해보세요!</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>실습 플로우</h2>
+  </div>
+  <div class="slide-content">
   <div style="display:flex; align-items:center; justify-content:center; gap:0.3em; margin:1em 0;">
     <div class="box" style="text-align:center; flex:1; border-top:3px solid #6d28d9;">
       <div style="font-size:1.5em;">1</div>
@@ -761,10 +904,14 @@
       <p class="small">코호트별 결론<br/>포스트잇 한 줄</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>FigJam — 코호트 분석 보드</h2>
+  </div>
+  <div class="slide-content">
   <div class="box box-accent">
     <p>각 코호트에 포스트잇 2개를 붙여주세요</p>
     <div style="display:flex; gap:0.8em; margin-top:1em; justify-content:center; flex-wrap:wrap;">
@@ -795,10 +942,14 @@
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwww.figma.com%2Fboard%2FyzfFJTmxLXWVHl2fieevrV%2FDMS2026-Gonnector-Workshop" alt="FigJam QR" style="width:120px; height:120px;" />
     <p class="small" style="margin-top:0.3em;">FigJam 보드 — QR 스캔하여 접속</p>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>실습 중 도움이 필요하면?</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2" style="margin-top:1em;">
     <div class="box" style="text-align:center; border:2px solid #5865F2;">
       <h3 style="color:#5865F2;">Discord AI 도우미</h3>
@@ -822,19 +973,23 @@
       <p class="small">질문이 많으면 우측 상단 <strong>@ 아이콘</strong> →<br/>"받은 편지함"에서 내 멘션만 모아보기</p>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- ============================================================ -->
 <!-- PART 6: WRAP UP -->
 <!-- ============================================================ -->
-<section data-background-color="#5b21b6">
+<section class="centered-slide" data-background-color="#5b21b6">
   <h2 style="color:white; font-size:1.4em;">Part 6</h2>
   <p style="color:rgba(255,255,255,0.9); font-size:1.2em; font-weight:700;">피드백 & Q&A</p>
   <p style="color:rgba(255,255,255,0.7); font-size:0.7em;">20분</p>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>정답 공개</h2>
+  </div>
+  <div class="slide-content">
   <table>
     <tr><th>코호트</th><th>정체</th><th>핵심 행동</th></tr>
     <tr><td>cohort_A</td><td class="accent">가성비 헌터</td><td>할인 상품 직행, 쿠폰 사용, 빠른 구매</td></tr>
@@ -844,10 +999,14 @@
     <tr><td>cohort_E</td><td class="accent">윈도우 쇼퍼</td><td>많이 보고 안 삼, 장바구니 이탈</td></tr>
   </table>
   <p class="fragment" style="margin-top:0.8em;">여러분의 분석과 얼마나 일치했나요?</p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Targeting — 누구를 먼저 공략할 것인가?</h2>
+  </div>
+  <div class="slide-content">
   <table style="max-width:1200px; margin:0 auto;">
     <tr><th>코호트</th><th>전환율</th><th>객단가</th><th>규모</th><th>ROI 우선순위</th></tr>
     <tr><td><span class="accent">cohort_D 충성 고객</span></td><td>87%</td><td>12만원</td><td>15%</td><td style="color:#6d28d9; font-weight:700;">1순위 — 확실한 수익원</td></tr>
@@ -857,10 +1016,14 @@
     <tr><td>cohort_E 윈도우 쇼퍼</td><td>5%</td><td>—</td><td>20%</td><td>5순위 — 전환 유도 전략 필요</td></tr>
   </table>
   <p style="margin-top:1.5em;" class="small">전환율 × 객단가 × 세그먼트 규모 = <span class="accent">마케팅 ROI</span></p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>Positioning — 세그먼트별 맞춤 전략</h2>
+  </div>
+  <div class="slide-content">
   <table style="max-width:1400px; margin:0 auto;">
     <tr><th>세그먼트</th><th>핵심 메시지</th><th>채널</th><th>프로모션</th></tr>
     <tr><td><strong>충성 고객</strong></td><td>"VIP 전용 혜택"</td><td>이메일, 앱 푸시</td><td>멤버십 등급제, 재구매 할인</td></tr>
@@ -870,10 +1033,14 @@
     <tr><td><strong>윈도우 쇼퍼</strong></td><td>"찜한 상품이 할인 중!"</td><td>리타겟팅 광고</td><td>위시리스트 할인, 장바구니 리마인더</td></tr>
   </table>
   <p style="margin-top:1.5em;" class="small">행동 데이터에서 읽은 니즈 → <span class="accent">세그먼트별 최적 전략</span></p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>현실 세계에서는?</h2>
+  </div>
+  <div class="slide-content">
   <div class="box box-accent" style="font-size:0.95em;">
     <p>워크숍에서는 <code>cohort_A~E</code> 라벨이 있었지만,<br/>
     현실에서는 <strong>라벨이 없습니다.</strong></p>
@@ -894,10 +1061,14 @@
   <p class="fragment" style="margin-top:0.8em;">
     <span class="highlight">여러분의 사이트에 Clarity를 붙이면, 내일부터 바로 시작할 수 있습니다</span>
   </p>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>핵심 정리</h2>
+  </div>
+  <div class="slide-content">
   <div style="text-align:left; max-width:700px; margin:0 auto;">
     <div class="box" style="margin-bottom:0.5em;">
       <span class="accent">1.</span> 고객 행동 데이터에는 <strong>STP 인사이트</strong>가 숨어 있다
@@ -912,10 +1083,14 @@
       <span class="accent">4.</span> 이 조합으로 <strong>빠르고 쉽게</strong> 액셔너블 인사이트를 얻을 수 있다
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="content-slide">
+  <div class="slide-title">
   <h2>GitHub 레포 활용 가이드</h2>
+  </div>
+  <div class="slide-content">
   <div class="grid-2">
     <div>
       <div class="box" style="margin-bottom:0.5em;">
@@ -967,9 +1142,10 @@
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section data-background-color="#1a1a1a">
+<section class="centered-slide" data-background-color="#1a1a1a">
   <h2 style="color:white;">자료 공유 & 연락처</h2>
   <div style="display:flex; justify-content:center; gap:2em; margin-top:1.5em;">
     <div style="text-align:center;">
@@ -1004,7 +1180,7 @@
     margin: 0.05,
     transition: 'slide',
     transitionSpeed: 'default',
-    center: true,
+    center: false,
     controls: true,
     controlsLayout: 'edges',
     controlsTutorial: false,
