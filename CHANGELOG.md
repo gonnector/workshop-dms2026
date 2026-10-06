@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Changed
+- 프로젝트 지침 파일 `CLAUDE.md` → `AGENTS.md` 이름 변경 (내용 동일, 플랫폼 공통 지침 파일 통일. Claude Code v2.1.277+는 CLAUDE.md가 없으면 AGENTS.md를 읽음)
+
 ## [0.1.1] - 2026-03-22
 
 ### Added
